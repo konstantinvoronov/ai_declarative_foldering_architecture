@@ -1,25 +1,43 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/libs`
 
-/libs — External / Protected Code
+## SRP
 
-## 1. Foldering structure and architecture limits and requirements and dependenscy
+Contains reusable multi-project source that is maintained independently from this application. Project-specific changes are implemented in `/lib/shared`.
 
-Only one folder for the project
+## Allowed Direct Children
 
-## 2. Reponsobilities for this folder
+- `<library_name>`
 
-Multi-project reusable code wich is not exaclty libraries but some code that has no
-direct dependency on the project or current implementation, sub repositories included in multiple porjects/
-Imported libraries / submodules / Stable base layer
+## Allowed Files
 
-## 3. Rules Dependency limits:
+- none
 
-- READ-ONLY this code is open for extansion but closed for modification, if you ever need to modify code from here you put it in shared 
-- Again, No modification without explicit permission
-- Cannot depend on ANY other folder, May depend on toher code within libs forlder
-- Can be used by folder within appropiate layers 
+## Naming
 
+- Folders: `snake_case`
+
+## Blueprint Required
+
+- no
+
+## Public Entrypoints
+
+- entrypoints declared by each library
+
+## May Import From
+
+- `/lib/libs`
+
+## May Be Imported By
+
+- project folders permitted by their applicable rules
+
+## Forbidden
+
+- modifying files inside `/lib/libs`
+- project-specific dependencies
+- project-specific adaptations

@@ -1,22 +1,53 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/shared`
 
-/shared
+## SRP
 
-## 1. Foldering structure and architecture limits and requirements and dependenscy
+Contains project-specific adaptations and extensions of reusable code from `/lib/libs`. Each adaptation retains the responsibility of the library layer it adapts.
 
-Only one folder for the project
+## Allowed Direct Children
 
-## 2. Reponsobilities for this folder
+- `assets`
+- `extensions`
+- `mixins`
+- `models`
+- `presentation`
+- `widgets`
 
-Appl-Local configuration and exensions from libs/uikit local adoptaions/
+## Allowed Files
 
-## 3. Rules Dependency limits:
+- none
 
-- Can depend on: libs,core,app
-- Accessible from features, 
-- Cannot contain domain logic
+## Naming
 
+- Folders: `snake_case`
+- Files: `snake_case`
+
+## Blueprint Required
+
+- no
+
+## Public Entrypoints
+
+- files explicitly exposed by descendant folder rules
+
+## May Import From
+
+- `/lib/libs`
+- `/lib/app`
+- `/lib/core`
+
+## May Be Imported By
+
+- `/lib/app`
+- `/lib/core`
+- `/lib/features`
+
+## Forbidden
+
+- modifying or duplicating the original library implementation
+- Domain logic
+- code unrelated to adapting `/lib/libs`

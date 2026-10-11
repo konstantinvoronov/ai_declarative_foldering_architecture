@@ -1,25 +1,50 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/core`
 
-/core — App-Level Global logic lives—like your UI kit extensions, shared services, and any utilities that are global and not specific to this particular app.
-App-specific, but feature-independent,
+## SRP
 
-## 1. Foldering structure and architecture limits and requirements and dependenscy
+Contains app-wide, feature-independent foundations. App-wide contracts live in `/lib/core/abstractions`, device-dependent capabilities live in `/lib/core/services`, cross-feature app-level coordination lives in `/lib/core/managers`, and cross-feature UI coordination lives in `/lib/core/flows`.
 
-Only one folder for the project
+## Allowed Direct Children
 
-## 2. Reponsobilities for this folder
+- `abstractions`
+- `services`
+- `managers`
+- `flows`
 
-Global services (auth, session, config)
-Builders, helpers
-Extensions over /shared
+## Allowed Files
 
-## 3. Rules Dependency limits:
+- none
 
-- Can depend on: shared
-- Cannot depend on: features
-- Must NOT contain business/domain logic
-- Accessible from anywhere
+## Naming
+
+- Folders: `snake_case`
+- Files and declarations follow the applicable child-folder rules.
+
+## Blueprint Required
+
+- no
+
+## Public Entrypoints
+
+- public files explicitly allowed by the applicable child-folder rules
+
+## May Import From
+
+- `/lib/shared`
+- `/lib/libs`
+- files in `/lib/core` allowed by the applicable child-folder rules
+- public Domain contracts from multiple features, only from `/lib/core/managers`
+- device APIs and packages allowed by `/lib/core/services/AGENTS.md`, only from `/lib/core/services`
+
+## May Be Imported By
+
+- any project folder whose applicable rules allow the specific Core entrypoint
+
+## Forbidden
+
+- feature-specific implementations outside `/lib/core/managers`
+- presentation implementations outside `/lib/core/flows`

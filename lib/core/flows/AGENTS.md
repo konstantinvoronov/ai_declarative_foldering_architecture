@@ -1,25 +1,44 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/core/flows`
 
-/core/flows/ — Contains cross feature ui-logic that dependend on multiple fetures,
+## SRP
 
-# 1. Foldering structure and architecture limits and requirements and dependenscy
+Contains app-level routing flows that coordinate ordered navigation across feature routes and transfer navigation state between steps.
 
-Only one folder for the project
+## Allowed Direct Children
 
-## 2. Reponsobilities for this folder
+- none
 
-Contains cross feature ui-logic that dependend on multiple fetures coordinatin mid pages solutions and routing and transfer
-state between screens and bottomsheets.
+## Allowed Files
 
-## 3. Rules Dependency limits:
+- `*_flow.dart`
+- `routing.dart`
 
-- Can depend on: multiple features,core, shared,libs
-- Nothing can be depended on anything from shared,
-- Contains only business/domain logic
-- Cannot contain presentation layer
-- Contains routing file that should be wired to global routing
-- Can be accessed through global routings
+## Naming
+
+- Files: `<name>_flow.dart`
+- Classes: `<Name>Flow`
+- Routing entrypoint: `routing.dart`
+
+## Blueprint Required
+
+- no
+
+## Public Entrypoints
+
+- `routing.dart`
+
+## May Import From
+
+- `/lib/app/routing.dart`
+
+## May Be Imported By
+
+- `/lib/app/routing.dart`
+
+## Forbidden
+
+- none beyond cumulative rules and the allow-lists above

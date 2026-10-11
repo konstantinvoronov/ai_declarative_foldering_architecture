@@ -1,21 +1,53 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/app`
 
-/app — Wiring & Configuration Layer
+## SRP
 
-## 1. Foldering structure and architecture limits and requirements and dependenscy
+Owns app initialization, dependency injection, routing, app-wide configuration, session bootstrap, localization initialization, and initial-shell setup. `di.dart` is global DI wiring that imports and calls feature DI registration functions. `routing.dart` is global routing wiring that imports and calls feature route builders.
 
-Only one folder for the project
+## Allowed Direct Children
 
-## 2. Reponsobilities for this folder
+- none
 
-App initialization / Dependency Injection (DI) / Routing / Session/bootstrap logic
+## Allowed Files
 
-## 3. Rules Dependency limits:
+- `app.dart`
+- `bootstrap.dart`
+- `di.dart`
+- `routing.dart`
+- `localization.dart`
 
-- Can import only files: form  di, routing, domain (levels subfolders) from shared, features, orchestration project parts
-- Files from /app folder cannot be imported to any part of the project  (Cannot be depended on by: anyone) Only exception is /main.dart.
-- Contains NO business logic / except for initializeing di,routeing, sessions, internalization, initial shell and bootstap
+## Naming
+
+- Files: the exact filenames listed above
+- Classes: `PascalCase`
+
+## Blueprint Required
+
+- no
+
+## Public Entrypoints
+
+- all files allowed in `/lib/app`
+
+## May Import From
+
+- each feature's public root `di.dart` and `presentation/routing.dart` entrypoints
+- feature files only through those public DI and routing entrypoints, never feature screens, repositories, Controllers, or other internal files
+- public Domain contracts required for wiring
+- public entrypoints from `/lib/core`
+- public entrypoints from `/lib/shared`
+- public entrypoints from `/lib/libs`
+
+## May Be Imported By
+
+- `/lib/main.dart`
+- `/lib/features`, as narrowed by each feature's descendant rules
+- `/lib/core/flows`, through `routing.dart` only
+
+## Forbidden
+
+- business and Domain implementations

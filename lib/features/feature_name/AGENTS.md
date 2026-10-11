@@ -1,24 +1,59 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/features/feature_name`
 
-/features/feature_name — This is a blue print for a feature it create structure and explain rule for a Feature
+## SRP
 
-# Foldering structure and architecture limits and requirements and dependenscy
+Contains one complete app feature divided into Domain, Data, Infrastructure, and Presentation layers. The feature-root `di.dart` is the feature's single public DI entrypoint and composes every feature-local registration.
 
-in /features can be as many features as required by the app. 
+## Allowed Direct Children
 
-## 2. Reponsobilities for this folder
+- `ai_development`
+- `data`
+- `domain`
+- `infrastructure`
+- `presentation`
 
-Contain ALL app-specific features specific functionality separated by specified layers architucture and following rule.
+## Allowed Files
 
-## 3. Rules Dependency limits:
+- `di.dart`
 
-- Can depend on: app, core, libs/ shared,
-- MUST NOT depend directly on other features
-- Cannot be accessed from any where in the project except from /core/managers/
-- All data inside
-  
-- contain only folders iniside LAYER DEFINITIONS (STRICT)
+## Naming
+
+- Folders: `snake_case`
+- DI file: `di.dart`
+- DI registration function: `register<FeatureName>Feature`
+
+## Blueprint Required
+
+- yes: recreate this complete feature structure and every matching `AGENTS.md`
+
+## Public Entrypoints
+
+- `di.dart`: the only public feature DI entrypoint; global App DI imports and explicitly calls its `register<FeatureName>Feature` function
+- `presentation/routing.dart`: the public feature routing entrypoint used by global App routing
+- `domain/shared/*`: selected Domain exports for permitted cross-feature consumers
+- `infrastructure/shared/*`: selected Infrastructure exports for other features' Infrastructure layers
+- `presentation/shared/*`: selected Presentation exports for permitted cross-feature consumers
+
+## May Import From
+
+- `/lib/app`
+- `/lib/core` entrypoints allowed by the applicable feature-layer rules
+- `/lib/shared`
+- `/lib/libs`
+- files inside this feature allowed by the applicable layer rules
+- other features only through `domain/shared`, `infrastructure/shared`, or `presentation/shared`, as allowed by the importing layer
+
+## May Be Imported By
+
+- `/lib/app`, through `di.dart` and `presentation/routing.dart`
+- `/lib/core/managers`, through `domain/shared`
+- other features through `domain/shared`, `infrastructure/shared`, or `presentation/shared`, as allowed by their importing layer
+
+## Forbidden
+
+- additional files at the feature root
+- direct imports of another feature's internal files

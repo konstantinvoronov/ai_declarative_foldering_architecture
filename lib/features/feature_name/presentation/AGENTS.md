@@ -1,19 +1,61 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/features/feature_name/presentation`
 
-/features/feature_name/presentation — Pure UI Layers
+## SRP
 
-# Foldering structure and architecture limits and requirements and dependenscy
+Contains this feature's user interface and Presentation coordination.
 
+## Allowed Direct Children
 
-## 2. Reponsobilities for this folder
+- `controllers`
+- `flows`
+- `shared`
 
-Contains subfolers with controllers,subfolers with widget, and ui screens and sheets.
+## Allowed Files
 
-## 3. Rules Dependency limits:
+- `di.dart`: optional private helper for Presentation registrations
+- `routing.dart`
+- `*_screen.dart`
+- `*_sheet.dart`
+- `*_widget.dart`
 
-- containes routing.dart file that should be wired to rounting
-- containes di.dart that should be wired to di
+## Naming
+
+- Files: `snake_case`
+- Screens: `<name>_screen.dart`
+- Sheets: `<name>_sheet.dart`
+- Widgets: `<name>_widget.dart`
+
+## Blueprint Required
+
+- yes: every direct child must use the matching folder and `AGENTS.md` from this feature blueprint
+
+## Public Entrypoints
+
+- `routing.dart`: feature-local routing wiring. It defines route-builder functions that global App routing imports and explicitly calls. It imports this feature's screens, sheets, and route parameters internally.
+- `shared/*`
+
+## May Import From
+
+- this feature's `domain/entities`
+- this feature's `domain/models`
+- this feature's `presentation/controllers`
+- this feature's `presentation/flows`
+- other features' `domain/shared`
+- other features' `presentation/shared`
+- `/lib/shared`
+- `/lib/libs`
+
+## May Be Imported By
+
+- this feature's root `di.dart`, through the optional private `di.dart` helper
+- `/lib/app`, through `routing.dart`
+- this feature's `presentation/flows`
+- other features' Presentation layers, through `shared/*`
+
+## Forbidden
+
+- none beyond cumulative rules and the allow-lists above

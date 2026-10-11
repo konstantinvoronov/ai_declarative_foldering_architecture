@@ -1,20 +1,43 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/features/feature_name/domain/shared`
 
-/features/feature_name/domain/shared — It is wire only.
+## SRP
 
-# Foldering structure and architecture limits and requirements and dependenscy
+Contains wiring-only exports of this feature's Domain files that are intentionally available to other features or Core Managers. Domain implementations remain in their normal Domain folders.
 
-## 2. Reponsobilities for this folder
+## Allowed Direct Children
 
-It is wire only, it contains pure export files that can be imported
-from outside. this files are part of declarative approach that declares availability for public access.
-files wired here ONLY when they are actually used some where. "no for future uses".
+- none
 
-## 3. Rules Dependency limits:
+## Allowed Files
 
-- Can only depend on the this feature domain folders. All files must be located in related to the layer folder (same folder where original files lives)
-- All files and subfolders can be accessible from apropriate layer from other features or from /core/managers and files from folders specifically
+- `*.dart`
+
+## Naming
+
+- Files: `snake_case`
+
+## Blueprint Required
+
+- no
+
+## Public Entrypoints
+
+- `*.dart`
+
+## May Import From
+
+- this feature's Domain layer
+
+## May Be Imported By
+
+- other features' Domain layers
+- other features' Presentation layers
+- `/lib/core/managers`
+
+## Forbidden
+
+- implementation code

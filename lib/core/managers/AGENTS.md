@@ -1,22 +1,48 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/core/managers`
 
-/core/managers/ — Cross feature logic / app level coordination / contains managers. This is a place from where you can access multiple features,
+## SRP
 
-## 1. Foldering structure and architecture limits and requirements and dependenscy
+Contains app-level Managers that coordinate multiple features through their public Domain contracts. Managers own cross-feature business coordination while features remain unaware of each other.
 
-Only one folder for the project
+## Allowed Direct Children
 
-## 2. Reponsobilities for this folder
+- none
 
-Contain managers - singltons or repositories that handles app levelol cross-feature orchastration
+## Allowed Files
 
-## 3. Rules Dependency limits:
+- `*_manager.dart`
 
-- Can depend on: multiple features,core, shared,libs
-- Nothing can be depended on anything from shared,
-- Contains only business/domain logic
-- Cannot contain presentation layer
+## Naming
+
+- Files: `<name>_manager.dart`
+- Classes: `<Name>Manager`
+
+## Blueprint Required
+
+- no
+
+## Public Entrypoints
+
+- `*_manager.dart`
+
+## May Import From
+
+- public Domain contracts from multiple features
+- `/lib/core`
+- `/lib/shared`
+- `/lib/libs`
+
+## May Be Imported By
+
+- `/lib/app`
+- `/lib/core/flows`
+- feature Presentation controllers that initiate cross-feature coordination
+
+## Forbidden
+
+- presentation implementations
+- direct feature implementation imports

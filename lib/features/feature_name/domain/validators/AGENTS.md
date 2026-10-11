@@ -1,31 +1,48 @@
 # AI Agents Guide (`AGENTS.md`)
 
-This file defines how agents MUST work with this folder and its subfolder or other folders with this name in the project.
+## Folder
 
-## Layer
+`/lib/features/feature_name/domain/validators`
 
-/features/feature_name/validators — Data validity.
+## SRP
 
-# Foldering structure and architecture limits and requirements and dependenscy
+Contains concrete, stateless validation operations. Each Validator receives an input value, applies a pure validation rule, and returns its result without using external state or services.
 
+## Allowed Direct Children
 
-## 2. Reponsobilities for this folder
+- none
 
-Validate each field, or entire entity. 
+## Allowed Files
 
-## 3. Rules Dependency limits:
+- `*_validator.dart`
 
-- Can not depend on anything except other features same domain lavel files specifically shared in domain/shared/layer/ folders
-- All files and subfolders can be accessible only within the this feature. Exceptions are files in /core/managers and files from folders specifically
-put in folder domain/shared/layer/* those are intentianally made available for others.
-- MUST NOT depend directly on other features
+## Naming
 
-- NO implementations
-- NO DTOs 
-- NO framework code
-- NO data layer dependencies
-- 
-- Only:
-interfaces
-abstract classes
-pure logic
+- Files: `<name>_validator.dart`
+- Classes: `<Name>Validator`
+- Operations: `validate`
+
+## Blueprint Required
+
+- no
+
+## Public Entrypoints
+
+- `*_validator.dart`
+
+## May Import From
+
+- Dart standard library
+- `/lib/core/abstractions`
+
+## May Be Imported By
+
+- this feature's Domain layer
+- this feature's Infrastructure layer
+- this feature's `presentation/controllers`
+- `/lib/core/managers`, through this feature's `domain/shared`
+
+## Forbidden
+
+- dependencies beyond the Dart standard library and `/lib/core/abstractions`
+- mutable state, I/O, and service access
