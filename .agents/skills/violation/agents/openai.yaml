@@ -1,0 +1,4 @@
+interface:
+  display_name: "Violation Memory"
+  short_description: "Record explicitly declared code violations"
+  default_prompt: "Use $violation to record this code-pattern violation and my direct reason."
