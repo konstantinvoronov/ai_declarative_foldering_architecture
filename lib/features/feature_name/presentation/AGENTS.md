@@ -11,6 +11,11 @@ Contains this feature's user interface and Presentation coordination.
 ## Allowed Direct Children
 
 - `controllers`
+- `models`
+- `mixins`
+- `sheets`
+- `screens`
+- `widgets`
 - `flows`
 - `shared`
 
@@ -29,32 +34,21 @@ Contains this feature's user interface and Presentation coordination.
 - Sheets: `<name>_sheet.dart`
 - Widgets: `<name>_widget.dart`
 
-## Blueprint Required
-
-- yes: every direct child must use the matching folder and `AGENTS.md` from this feature blueprint
-
 ## Public Entrypoints
 
 - `routing.dart`: feature-local routing wiring. It defines route-builder functions that global App routing imports and explicitly calls. It imports this feature's screens, sheets, and route parameters internally.
 - `shared/*`
 
-## May Import From
+- `di.dart`: private Presentation registration helper, consumed only by this feature's root `di.dart`
 
-- this feature's `domain/entities`
-- this feature's `domain/models`
-- this feature's `presentation/controllers`
-- this feature's `presentation/flows`
-- other features' `domain/shared`
-- other features' `presentation/shared`
-- `/lib/shared`
-- `/lib/libs`
+Same-feature flow access remains internal. Cross-feature access is through `shared/*` only, from other features' Presentation layers. App consumes only the feature's `routing.dart`; other Presentation implementations are not App entrypoints.
 
 ## May Be Imported By
 
-- this feature's root `di.dart`, through the optional private `di.dart` helper
-- `/lib/app`, through `routing.dart`
-- this feature's `presentation/flows`
-- other features' Presentation layers, through `shared/*`
+- /lib/features/feature_name
+- /lib/app/routing
+- /lib/features/feature_name/presentation/flows
+- /lib/features/*
 
 ## Forbidden
 

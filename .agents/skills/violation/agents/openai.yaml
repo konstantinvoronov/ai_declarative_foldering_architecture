@@ -1,4 +1,4 @@
 interface:
   display_name: "Violation Memory"
   short_description: "Record explicitly declared code violations"
-  default_prompt: "Use $violation to record this code-pattern violation and my direct reason."
+  default_prompt: "Use $violation to collect unprocessed developer-declared violations from this conversation, preserving the reason, bad code, and confirmed good pattern."

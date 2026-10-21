@@ -42,5 +42,5 @@ When one generated package contains both model declarations and API handles, Dat
 
 ## May Be Imported By
 
-- this feature's Infrastructure data-source implementations
-- this feature's Infrastructure repository implementations
+- /lib/features/feature_name/infrastructure/data_sources
+- /lib/features/feature_name/infrastructure/repositories

@@ -42,11 +42,7 @@ This folder is designed not as a part of the code, but as a part of the developi
 
 ## May Import From
 
-- none
-
 ## May Be Imported By
-
-- none
 
 ## Forbidden
 

@@ -6,7 +6,7 @@
 
 ## SRP
 
-Contains immutable Domain value structures, enums, and composed business models that describe same-feature business concepts without independent identity or lifecycle. A model may combine multiple same-feature Domain entities or models and may add derived Domain information. Models contain data and pure value behavior.
+Contains immutable Domain value structures, enums, and composed business models that describe scope-owned business concepts without independent identity or lifecycle. A model may combine same-scope Domain entities or models and permitted Core Domain values and may add derived Domain information. Models contain data and pure value behavior.
 
 ## Allowed Direct Children
 
@@ -31,20 +31,6 @@ Contains immutable Domain value structures, enums, and composed business models 
 
 - `*.dart` within the same feature
 - cross-feature and Core Manager access is exposed through this feature's `domain/shared`
-
-## May Import From
-
-- this feature's `domain/entities`
-- this feature's `domain/models`
-- other features' Domain declarations through their `domain/shared` entrypoints
-
-## May Be Imported By
-
-- this feature's Domain layer
-- this feature's Data layer, as allowed by its applicable child-folder rules
-- this feature's Infrastructure layer
-- this feature's Presentation layer, as allowed by its applicable child-folder rules
-- other features and `/lib/core/managers`, through this feature's `domain/shared`
 
 ## Forbidden
 

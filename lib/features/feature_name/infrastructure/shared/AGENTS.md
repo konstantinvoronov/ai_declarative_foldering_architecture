@@ -28,13 +28,15 @@ Contains wiring-only exports of this feature's Infrastructure files that are del
 
 - `*.dart`
 
+Consumers of these wiring-only entrypoints are limited to other features' Infrastructure layers. The `/lib/features/*` directory ceiling is not blanket access for other layers or feature internals.
+
 ## May Import From
 
-- this feature's Infrastructure layer
+- /lib/features/feature_name/infrastructure/*
 
 ## May Be Imported By
 
-- other features' Infrastructure layers
+- /lib/features/*
 
 ## Preferred Coordination
 

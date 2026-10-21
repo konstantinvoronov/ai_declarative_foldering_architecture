@@ -5,7 +5,15 @@ description: Audit a completed development job against this repository's declara
 
 # Finalize Job
 
-Audit the job without changing files, creating commits, or repairing findings. Report every unmet requirement with concrete evidence. Perform corrections only after the user separately authorizes them.
+Use this project's local skills and ai_development/ai_harness.md, not a sibling checkout's definitions. The final verification pass is read-only: do not create commits or silently repair findings. Pattern enforcement and violation capture run before that pass as described below. Existing source-edit and approval boundaries remain active.
+
+## Preparation before the final audit
+
+Run the local violation skill over the available conversation to collect unprocessed developer-declared violations into the project-owned history, without inventing declarations or duplicating existing records. This authorized evidence capture may append history; it does not modify source or patterns. Report unavailable conversation evidence explicitly.
+
+Run the local pattern-keeper against the current uncommitted job and its cumulative scoped catalogs. It supervises and requires conformity without editing files. If it reports required code corrections, return to the implementation phase: obtain any approval required by the project, make authorized corrections, then rerun the keeper and affected verification. Do not finalize a job with confirmed pattern deviations or unresolved effective-rule conflicts. An empty catalog is not a reason to invent patterns.
+
+Only after that preparation run the final read-only audits below on the resulting code. Harness maintenance is not part of normal finalization; invoke maintain-ai-harness only at the developer's explicit request. Finalization never updates catalogs to make code pass.
 
 ## Required project-local audits
 
@@ -57,4 +65,4 @@ Return a concise checklist with one of these results for each area:
 - `BLOCKED`: required evidence is unavailable;
 - `NOT APPLICABLE`: explain why the requirement does not apply.
 
-Cover declarative architecture, naming and responsibility alignment, behavioral responsibility leakage, task decomposition, protected files and approvals, feature specification, implementation plan, development history, diagnostic coverage and log specification, verification evidence, and commit state. Finish with an overall result. Mark the job finalized only when every applicable item passes, the naming audit has no confirmed violation or unresolved rule conflict, the responsibility audit has no confirmed leak, the task decomposer does not recommend a split, and the diagnostic audit requires no update.
+Cover pattern conformance, violation-capture evidence, declarative architecture, naming and responsibility alignment, behavioral responsibility leakage, task decomposition, protected files and approvals, feature specification, implementation plan, development history, diagnostic coverage and log specification, verification evidence, and commit state. Finish with an overall result. Mark the job finalized only when every applicable item passes, the pattern keeper passes, the naming audit has no confirmed violation or unresolved rule conflict, the responsibility audit has no confirmed leak, the task decomposer does not recommend a split, and the diagnostic audit requires no update.

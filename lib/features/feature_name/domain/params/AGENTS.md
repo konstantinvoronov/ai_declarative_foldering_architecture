@@ -29,14 +29,6 @@ Contains parameter structures and models passed to Domain functions.
 
 - `*_params.dart`
 
-## May Import From
-
-- inherited from this feature's Domain layer
-
-## May Be Imported By
-
-- folders permitted to import this feature's Domain by their applicable rules
-
 ## Forbidden
 
 - dependencies not allowed by the parent Domain rules

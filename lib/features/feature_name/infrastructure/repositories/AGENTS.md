@@ -28,22 +28,25 @@ Contains concrete implementations of this feature's Domain repository contracts.
 
 ## Public Entrypoints
 
-- none
+- none outside the feature
+
+These concrete files may be imported only by this feature's private `infrastructure/di.dart` construction helper. Other files in the same directory are not additional consumers.
 
 ## May Import From
 
-- this feature's Domain layer
-- this feature's `data/data_sources`
-- this feature's `data/dtos`
-- this feature's `data/mappers`
-- `/lib/app`
-- `/lib/shared`
-- `/lib/core`, except `/lib/core/managers` and `/lib/core/flows`
-- `/lib/libs`
+- /lib/features/feature_name/domain/*
+- /lib/features/feature_name/data/data_sources
+- /lib/features/feature_name/data/dtos
+- /lib/features/feature_name/data/mappers
+- /lib/shared/*
+- /lib/core/*
+- !/lib/core/flows/*
+- !/lib/core/managers/*
+- /lib/libs/*
 
 ## May Be Imported By
 
-- this feature's `infrastructure/di.dart`
+- /lib/features/feature_name/infrastructure
 
 ## Forbidden
 

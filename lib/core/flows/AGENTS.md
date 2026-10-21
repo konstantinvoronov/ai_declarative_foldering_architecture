@@ -8,6 +8,8 @@
 
 Contains app-level routing flows that coordinate ordered navigation across feature routes and transfer navigation state between steps.
 
+The only App import target is its global `routing.dart` entrypoint. Directory dependency lists below are bounds only; they do not permit importing other App files.
+
 ## Allowed Direct Children
 
 - none
@@ -29,15 +31,15 @@ Contains app-level routing flows that coordinate ordered navigation across featu
 
 ## Public Entrypoints
 
-- `routing.dart`
+- `routing.dart`: exposed only to the global App `routing.dart`; other App files may not import this entrypoint
 
 ## May Import From
 
-- `/lib/app/routing.dart`
+- /lib/app
 
 ## May Be Imported By
 
-- `/lib/app/routing.dart`
+- /lib/app
 
 ## Forbidden
 

@@ -28,15 +28,16 @@ Contains wiring-only exports of this feature's Domain files that are intentional
 
 - `*.dart`
 
+Consumers of these wiring-only entrypoints are limited to other features' Domain and Presentation layers, plus Core Managers. The `/lib/features/*` directory ceiling is not blanket access for other layers or feature internals.
+
 ## May Import From
 
-- this feature's Domain layer
+- /lib/features/feature_name/domain/*
 
 ## May Be Imported By
 
-- other features' Domain layers
-- other features' Presentation layers
-- `/lib/core/managers`
+- /lib/features/*
+- /lib/core/managers
 
 ## Forbidden
 

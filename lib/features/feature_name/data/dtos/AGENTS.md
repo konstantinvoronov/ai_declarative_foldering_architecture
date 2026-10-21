@@ -2,7 +2,7 @@
 
 ## Folder
 
-`/features/feature_name/data/dtos`
+`/lib/features/feature_name/data/dtos`
 
 ## SRP
 
@@ -38,7 +38,7 @@ Contains short-lived representations of external transport or persistence contra
 
 ## May Be Imported By
 
-- this feature's `data/mappers`
-- this feature's `data/data_sources`
-- this feature's Infrastructure layer
+- /lib/features/feature_name/data/mappers
+- /lib/features/feature_name/data/data_sources
+- /lib/features/feature_name/infrastructure/*
 

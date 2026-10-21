@@ -6,7 +6,7 @@
 
 ## SRP
 
-Contains one Controller, Cubit, or Bloc for each screen. Controllers are the entrypoint for that screen's UI logic.
+Contains one Controller, Cubit, or Bloc for each screen and its companion State declarations. Controllers are the entrypoint for that screen's UI logic.
 
 ## Allowed Direct Children
 
@@ -17,11 +17,14 @@ Contains one Controller, Cubit, or Bloc for each screen. Controllers are the ent
 - `*_controller.dart`
 - `*_cubit.dart`
 - `*_bloc.dart`
+- `*_state.dart`
 
 ## Naming
 
 - Files: `<screen_name>_controller.dart`, `<screen_name>_cubit.dart`, or `<screen_name>_bloc.dart`
 - Classes: `<ScreenName>Controller`, `<ScreenName>Cubit`, or `<ScreenName>Bloc`
+- State files: `<screen_name>_state.dart`
+- State classes: `<ScreenName>State`
 
 ## Blueprint Required
 
@@ -30,22 +33,6 @@ Contains one Controller, Cubit, or Bloc for each screen. Controllers are the ent
 ## Public Entrypoints
 
 - none
-
-## May Import From
-
-- files in this folder
-- this feature's `domain/entities`
-- this feature's `domain/models`
-- this feature's `domain/repositories`
-- this feature's `domain/use_cases`
-- this feature's Infrastructure layer
-- `/lib/core/managers`
-- `/lib/shared`
-- `/lib/libs`
-
-## May Be Imported By
-
-- this feature's Presentation layer
 
 ## Forbidden
 

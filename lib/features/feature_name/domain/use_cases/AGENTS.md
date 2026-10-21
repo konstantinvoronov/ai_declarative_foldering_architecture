@@ -29,18 +29,6 @@ Contains contracts for business operations that coordinate multiple repositories
 
 - `i_*_use_case.dart`
 
-## May Import From
-
-- inherited from this feature's Domain layer
-
-## May Be Imported By
-
-- this feature's Domain layer
-- this feature's `presentation/controllers`
-- this feature's `infrastructure/use_cases`
-- this feature's `infrastructure/di.dart`
-- `/lib/core/managers`, through this feature's `domain/shared`
-
 ## Forbidden
 
 - concrete use-case implementations

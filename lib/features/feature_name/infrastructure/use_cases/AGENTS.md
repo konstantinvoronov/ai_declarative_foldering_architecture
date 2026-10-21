@@ -29,17 +29,21 @@ Contains strictly business-logic implementations of this feature's Domain use-ca
 
 ## Public Entrypoints
 
-- none
+- none outside the feature
+
+Concrete use cases may be imported only by this feature's private `infrastructure/di.dart` construction helper, not by other files merely sharing its folder.
 
 ## May Import From
 
-- this feature's Domain repository contracts
-- this feature's Domain validator contracts
-- this feature's Domain entities, models, and params
+- /lib/features/feature_name/domain/repositories
+- /lib/features/feature_name/domain/validators
+- /lib/features/feature_name/domain/entities
+- /lib/features/feature_name/domain/models
+- /lib/features/feature_name/domain/params
 
 ## May Be Imported By
 
-- this feature's `infrastructure/di.dart`
+- /lib/features/feature_name/infrastructure
 
 ## Forbidden
 

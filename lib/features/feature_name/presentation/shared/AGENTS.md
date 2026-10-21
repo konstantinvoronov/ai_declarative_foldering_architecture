@@ -28,13 +28,15 @@ Contains wiring-only exports of this feature's Presentation files that are inten
 
 - `*.dart`
 
+Consumers of these wiring-only entrypoints are limited to other features' Presentation layers. The `/lib/features/*` directory ceiling is not blanket access for other layers or feature internals.
+
 ## May Import From
 
-- this feature's Presentation layer
+- /lib/features/feature_name/presentation/*
 
 ## May Be Imported By
 
-- other features' Presentation layers
+- /lib/features/*
 
 ## Forbidden
 

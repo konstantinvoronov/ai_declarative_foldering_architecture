@@ -28,18 +28,21 @@ Contains concrete implementations of this feature's Data Source interfaces. Each
 
 ## Public Entrypoints
 
-- none
+- none outside the feature
+
+These concrete files may be imported only by this feature's private `infrastructure/di.dart` construction helper. Other files in the same directory are not additional consumers.
 
 ## May Import From
 
-- this feature's `data/data_sources`
-- this feature's `data/dtos`
-- `/lib/app`
-- `/lib/core`, except `/lib/core/managers` and `/lib/core/flows`
+- /lib/features/feature_name/data/data_sources
+- /lib/features/feature_name/data/dtos
+- /lib/core/*
+- !/lib/core/flows/*
+- !/lib/core/managers/*
 
 ## May Be Imported By
 
-- this feature's `infrastructure/di.dart`
+- /lib/features/feature_name/infrastructure
 
 ## Forbidden
 

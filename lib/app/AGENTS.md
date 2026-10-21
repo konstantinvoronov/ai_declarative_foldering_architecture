@@ -6,11 +6,13 @@
 
 ## SRP
 
-Owns app initialization, dependency injection, routing, app-wide configuration, session bootstrap, localization initialization, and initial-shell setup. `di.dart` is global DI wiring that imports and calls feature DI registration functions. `routing.dart` is global routing wiring that imports and calls feature route builders.
+Owns app initialization, dependency injection, routing, app-wide configuration, session bootstrap, localization initialization, and initial-shell setup. `di.dart` owns the GetIt container and DI startup sequence; its project imports are restricted to `/lib/app/di`. That folder composes public feature and Core DI entrypoints. `routing.dart` is global routing wiring that imports and calls feature route builders.
+
+Feature dependencies use only the public feature-root DI and Presentation routing entrypoints. Only `/lib/app/di/features_di.dart` imports feature DI. Other feature internals are not App dependencies. Core, Shared, and library dependencies use their permitted public entrypoints for wiring; `/lib/app/di.dart` retains its narrower helper-only project imports.
 
 ## Allowed Direct Children
 
-- none
+- `di`: registration composition helpers governed by `di/AGENTS.md`
 
 ## Allowed Files
 
@@ -33,20 +35,15 @@ Owns app initialization, dependency injection, routing, app-wide configuration, 
 
 - all files allowed in `/lib/app`
 
-## May Import From
-
-- each feature's public root `di.dart` and `presentation/routing.dart` entrypoints
-- feature files only through those public DI and routing entrypoints, never feature screens, repositories, Controllers, or other internal files
-- public Domain contracts required for wiring
-- public entrypoints from `/lib/core`
-- public entrypoints from `/lib/shared`
-- public entrypoints from `/lib/libs`
+Within `/lib`, only `main.dart` is an external startup consumer; this does not expose App to arbitrary root files. Shared consumes App for project configuration/adaptation. Feature consumers still require their own layer permission. Core Flows consume only global `routing.dart`, not other App files.
 
 ## May Be Imported By
 
-- `/lib/main.dart`
-- `/lib/features`, as narrowed by each feature's descendant rules
-- `/lib/core/flows`, through `routing.dart` only
+- /lib
+- /lib/shared/*
+- /lib/libs/*
+- /lib/features/*
+- /lib/core/flows
 
 ## Forbidden
 

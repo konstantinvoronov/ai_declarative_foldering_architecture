@@ -34,7 +34,8 @@ Trace the declaration to its callers and determine:
 - Manager names identify app-wide coordination across two or more features.
 - Flow names identify presentation navigation or interaction orchestration.
 - Use Case names identify a business operation coordinating multiple repositories or repository operations.
-- Validator and Formatter names identify concrete, stateless operations whose primary operations are `validate` and `format`.
+- Validator names identify concrete, stateless validation operations or pure abstract validation bases whose primary operation or contract is `validate`.
+- Formatter names identify concrete, stateless formatting operations whose primary operation is `format`.
 - DTO names identify external transport or persistence shapes; Mapper names identify the source representation or conversion boundary.
 - Params names identify the operation or destination receiving the values.
 - Feature DI and routing names follow their exact blueprint names and registration-function conventions.

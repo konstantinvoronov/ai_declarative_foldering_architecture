@@ -6,7 +6,7 @@
 
 ## SRP
 
-Contains concrete, stateless validation operations. Each Validator receives an input value, applies a pure validation rule, and returns its result without using external state or services.
+Contains concrete, stateless validation operations and pure abstract Validator bases. A concrete Validator receives an input value, applies a pure validation rule, and returns its result without using external state or services. An abstract base defines the validation contract with the same purity boundary.
 
 ## Allowed Direct Children
 
@@ -30,19 +30,21 @@ Contains concrete, stateless validation operations. Each Validator receives an i
 
 - `*_validator.dart`
 
+Core Managers access this feature's declarations through `domain/shared` only; this list does not make internal files directly available across that boundary.
+
 ## May Import From
 
 - Dart standard library
-- `/lib/core/abstractions`
+- `/lib/core/domain`
 
 ## May Be Imported By
 
-- this feature's Domain layer
-- this feature's Infrastructure layer
-- this feature's `presentation/controllers`
-- `/lib/core/managers`, through this feature's `domain/shared`
+- /lib/features/feature_name/domain/*
+- /lib/features/feature_name/infrastructure/*
+- /lib/features/feature_name/presentation/controllers
+- /lib/core/managers
 
 ## Forbidden
 
-- dependencies beyond the Dart standard library and `/lib/core/abstractions`
+- dependencies beyond the Dart standard library and `/lib/core/domain`
 - mutable state, I/O, and service access

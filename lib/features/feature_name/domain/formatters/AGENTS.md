@@ -30,19 +30,21 @@ Contains concrete, stateless text-formatting operations. Each Formatter receives
 
 - `*_formatter.dart`
 
+Core Managers access this feature's declarations through `domain/shared` only; this list does not make internal files directly available across that boundary.
+
 ## May Import From
 
 - Dart standard library
-- `/lib/core/abstractions`
+- `/lib/core/domain`
 
 ## May Be Imported By
 
-- this feature's Domain layer
-- this feature's Infrastructure layer
-- this feature's Presentation layer
-- `/lib/core/managers`, through this feature's `domain/shared`
+- /lib/features/feature_name/domain/*
+- /lib/features/feature_name/infrastructure/*
+- /lib/features/feature_name/presentation/*
+- /lib/core/managers
 
 ## Forbidden
 
-- dependencies beyond the Dart standard library and `/lib/core/abstractions`
+- dependencies beyond the Dart standard library and `/lib/core/domain`
 - mutable state, I/O, and service access

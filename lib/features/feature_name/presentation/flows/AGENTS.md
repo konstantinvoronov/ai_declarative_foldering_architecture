@@ -33,12 +33,12 @@ Contains navigation flows that coordinate ordered navigation inside this Feature
 
 ## May Import From
 
-- public entrypoints from `/lib/core`
-- this Feature's Presentation layer
+- /lib/core/*
+- /lib/features/feature_name/presentation/*
 
 ## May Be Imported By
 
-- this Feature's Presentation layer
+- /lib/features/feature_name/presentation/*
 
 ## Forbidden
 

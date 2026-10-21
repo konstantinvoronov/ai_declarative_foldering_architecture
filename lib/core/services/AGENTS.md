@@ -6,15 +6,9 @@
 
 ## SRP
 
-Contains app-wide, feature-independent Services that work directly with device-dependent capabilities such as haptics, compass, and camera.
+Contains concrete, app-wide Services that isolate external capabilities, including device, platform, and logging integrations. Services use the matching Domain Service interfaces. The same responsibility rules apply to library-scoped Core Services.
 
-A `Service` exposes a device capability as device-level values, events, or operations.
-
-`Service` has the same meaning in `/lib/libs/<library_name>/core/services`, where the library's cumulative rules apply.
-
-## Allowed Direct Children
-
-- none
+Project-facing Service exports live directly in this folder. Interface exports live in `/lib/core/domain/services`. Apply general layer dependencies in both directions; exports do not widen permissions.
 
 ## Allowed Files
 
@@ -22,36 +16,15 @@ A `Service` exposes a device capability as device-level values, events, or opera
 
 ## Naming
 
-- Folders: none
-- Files: `<capability>_service.dart`
-- Classes: `<Capability>Service`
-
-## Blueprint Required
-
-- no
+- Files: `<name>_service.dart`
+- Classes: `<Name>Service`
+- Matching Domain interfaces: `I<Name>Service`
 
 ## Public Entrypoints
 
 - `*_service.dart`
 
-## May Import From
-
-- `dart:*`
-- Flutter SDK APIs that expose platform, lifecycle, or device capabilities
-- third-party packages that directly expose platform, operating-system, or device capabilities
-- files in `/lib/core/services`
-
-## May Be Imported By
-
-- `/lib/app`
-- `/lib/core`
-- `/lib/shared`
-- `/lib/features/*/presentation/controllers`
-- `/lib/features/*/presentation/presenters`
-- `/lib/features/*/infrastructure`
-- `/lib/core/managers`
-- `/lib/core/flows`
-
 ## Forbidden
 
-- none beyond cumulative parent rules and the allow-lists above
+- application routing, UI-response policy, or feature-specific business coordination
+- library-name folders used only to nest export wiring

@@ -28,14 +28,6 @@ Contains Shared asset adaptations.
 
 - `*.dart`
 
-## May Import From
-
-- inherited from `/lib/shared`
-
-## May Be Imported By
-
-- inherited from `/lib/shared`
-
 ## Forbidden
 
 - dependencies not allowed by `/lib/shared`

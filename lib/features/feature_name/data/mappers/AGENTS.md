@@ -2,7 +2,7 @@
 
 ## Folder
 
-`/features/feature_name/data/mappers`
+`/lib/features/feature_name/data/mappers`
 
 ## SRP
 
@@ -31,11 +31,11 @@ Contains explicit conversion between Data DTOs and Domain entities or Domain mod
 
 ## May Import From
 
-- this feature's `data/dtos`
-- this feature's `domain/entities`
-- this feature's `domain/models`
+- /lib/features/feature_name/data/dtos
+- /lib/features/feature_name/domain/entities
+- /lib/features/feature_name/domain/models
 
 ## May Be Imported By
 
-- this feature's Infrastructure layer
+- /lib/features/feature_name/infrastructure/*
 
