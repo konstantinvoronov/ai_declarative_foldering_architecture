@@ -8,19 +8,106 @@ This is a fresh new approach for developing flutter mobile app eighter with big 
 It contains a set of instruction guiding AI in helping Flutter developers, to use foldering structure as declaration interface of responisbilities, dependecies, and limitation for files located within the folder.
 It is also a checking script that mechanically verifyes that ai is not drifing aways and keeps executing basic principales defined in the foldeing architecture.
 
-### Setup
+### Start a project from Git
 
-Clone the repo into your workspace, point your favorite AI agent at it, 
+Choose the architecture blueprint for a rules-first project or [Apollo Declarative](https://github.com/konstantinvoronov/apollo-declarative) for a working Flutter scaffold. Use a published revision containing the linked harness and skills below.
 
-and start with this promts. 
+#### Scenario 1: Start with the architecture blueprint
 
-"Process instructions from Agents.md in folder /setup/1/"
+```sh
+git clone https://github.com/konstantinvoronov/ai_declarative_foldering_architecture.git my-app
+cd my-app
+git remote rename origin architecture
+git remote add origin https://github.com/YOUR_ACCOUNT/YOUR_REPOSITORY.git
+git switch -c project-start
+```
 
-follow instruction ai will be giving you. answer question follow next steps AI will be giving you.
+Create an empty destination repository first. These commands preserve the starting history and keep the blueprint as a reference remote. Push the approved project baseline with `git push -u origin project-start` when ready.
 
-### When AI will complete setup
+Open the checkout in your AI coding tool and start with:
 
-open promt in planing mode and start explaning what you need and see how this environment can make your AI-assisted Flutter coding not just more manageable, but truly different. It’s all about keeping your development experience clear, organized, and AI-friendly from the ground up.
+```text
+Read lib/AGENTS.md and ai_development/ai_harness.md. Use this project's local skills. We are starting a new application: <describe the idea>. Inspect the inherited blueprint, propose the first minimal working feature, and show the objects, responsibilities, layers, exact paths, and affected files. Run context-checker after drafting the plan and present it for approval.
+```
+
+Expected next step: approve a small implementation plan and the necessary project identity changes.
+
+#### Scenario 2: Start with Apollo's working scaffold
+
+```sh
+git clone https://github.com/konstantinvoronov/apollo-declarative.git my-app
+cd my-app
+git remote rename origin apollo
+git remote add origin https://github.com/YOUR_ACCOUNT/YOUR_REPOSITORY.git
+git switch -c project-start
+flutter pub get
+flutter run
+```
+
+Use an empty destination repository. Push the approved baseline with `git push -u origin project-start` when ready. Apollo carries its own rules and skills; the architecture checkout is optional.
+
+First prompt:
+
+```text
+Read lib/AGENTS.md and ai_development/ai_harness.md. Use this project's local skills. Plan adapting Apollo for <describe the application>, including its display name, Dart package, native identifiers, and first feature. Identify the existing examples and reusable foundations to retain. Show proposed objects, roles, layers, paths, and affected files; run context-checker before presenting the plan for approval.
+```
+
+Expected next step: approve the identity and first-feature adaptation before implementation.
+
+#### Scenario 3: Adopt the harness in an existing project
+
+Clone this blueprint beside the existing checkout, then preview synchronization from the blueprint directory:
+
+```sh
+python3 ai_development/sync_harness.py --source . --target /absolute/path/to/existing-project
+```
+
+First prompt:
+
+```text
+Review this synchronization preview and compare the blueprint with the existing project's instructions and architecture. Propose a scoped adoption plan, preserving project-specific patterns, violation history, and source. Identify conflicts and exact instruction files requiring approval. Run context-checker on the plan and ask for approval before applying it.
+```
+
+Expected next step: review conflicts and approve selected harness changes. Apply the reviewed synchronization with the same command plus `--apply`; approve each affected AGENTS.md separately. The manifest controls shared files and sections; project-owned patterns and history stay local.
+
+## AI skills by workflow stage
+
+Skill names below link to the project-local definitions. Invoke them using `$skill-name` in a compatible AI tool. The agent performs the checks described by the skills and reports evidence.
+
+### Orientation and architectural design
+
+- [human-developer-helper](.agents/skills/human-developer-helper/SKILL.md) — explain the current stage, useful next step, and why.
+- [resolve-declarative-responsibilities](.agents/skills/resolve-declarative-responsibilities/SKILL.md) — resolve proposed objects' roles, names, layers, placement, and both dependency directions before implementation.
+
+### After the initial plan is built
+
+- [context-checker](.agents/skills/context-checker/SKILL.md) — verify the plan uses sufficient, relevant context and correctly interprets applicable instructions.
+- [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — review whether work should be split into smaller independent tasks; its current audit inputs are working-tree, staged, or committed changes. Use that evidence when available and distinguish planning recommendations from a completed change-set audit.
+
+### When implementation is complete
+
+Run [finalize-job](.agents/skills/finalize-job/SKILL.md). Its workflow automatically includes these project-local checks when the agent executes the skill:
+
+- [pattern-keeper](.agents/skills/pattern-keeper/SKILL.md) — review the job against applicable implementation patterns and request corrections.
+- [check-naming](.agents/skills/check-naming/SKILL.md) — verify names express established architectural roles.
+- [check-declarative-rules](.agents/skills/check-declarative-rules/SKILL.md) — verify architectural declarations, dependency permissions, and approvals.
+- [check-responsibility-leaks](.agents/skills/check-responsibility-leaks/SKILL.md) — compare actual behavior and dependencies with declared responsibilities.
+- [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — check the final change set for independent concerns requiring separation.
+- [update-diagnostic-spec](.agents/skills/update-diagnostic-spec/SKILL.md) — audit affected features' diagnostic specifications; update mode is available during separately authorized diagnostics work.
+- [violation](.agents/skills/violation/SKILL.md) — collect remaining developer-declared violations from the conversation before the final audits.
+
+Finalization also checks verification evidence, feature documentation, protected files, and commit state. Invocation is an agent workflow requirement; evidence of execution establishes which checks actually ran.
+
+### Understand changes and review code
+
+- [update-by-layer](.agents/skills/update-by-layer/SKILL.md) — explain changes by architectural layer and responsibility, naming objects, files, and generated updates.
+- [violation](.agents/skills/violation/SKILL.md) — record review findings declared by the developer, their cause, offending code, and confirmed intended correction.
+
+### Periodic developer-led maintenance
+
+- [maintain-ai-harness](.agents/skills/maintain-ai-harness/SKILL.md) — review harness consistency and performance using recent violations; help the developer resolve them and apply approved pattern or instruction updates.
+
+Project-wide patterns live in [ai_development/patterns.md](ai_development/patterns.md). Folder catalogs add scoped rules and specific overrides. Follow the [AI harness](ai_development/ai_harness.md) for execution, approvals, and synchronization, and the [foldering contract](ai_development/declarative_foldering_rules.md) for architecture.
 
 ###
 
