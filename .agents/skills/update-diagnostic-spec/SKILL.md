@@ -7,6 +7,8 @@ description: Audit or update an affected feature's diagnostic log specification 
 
 Keep feature diagnostics useful without expanding production behavior merely to make an edge case observable.
 
+Before running an audit, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
+
 ## Choose the mode
 
 - `audit`: read-only. Use this mode when called by `finalize-job` or when the user asks what diagnostic work is missing.

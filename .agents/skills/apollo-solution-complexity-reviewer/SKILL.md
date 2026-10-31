@@ -7,6 +7,8 @@ description: Explain an implemented solution's architecture and algorithm concis
 
 Help the human developer understand the actual solution and spot opportunities to rethink its approach. This reviews the architecture and algorithm of the whole solution, beyond individual objects' compliance. Do not modify application code or automatically apply alternatives. Saving review evidence is part of this workflow.
 
+Before running, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
+
 ## Establish or reuse the review
 
 Identify the current task's changes from conversation and Git evidence, separating pre-existing work. Read the active project's [ticket record contract](../../../ai_development/ticket_review_records.md). Locate the active ticket's relevant review records and any relevant records from evidenced connected issues. If no ticket is known, use the contract's temporary storage.
@@ -29,6 +31,10 @@ Favor a consistent mechanism covering required cases. Universality means coheren
 Finding no supported simplification is valid. Any alternative must be concrete, evidenced, and preserve required behavior, including difficult cases. Do not invent problems, require a finding quota, or claim the solution is the simplest possible.
 
 Save the resulting diagram, evidence, findings, concise rationale, alternatives assessed, uncertainties, and developer decisions under the ticket record contract. Preserve this reusable assessment independently of how much of it is explained. Do not store private chain-of-thought.
+
+## Finalization gate outcome
+
+When called by `finalize-job`, save an internal outcome: `READY` when evidence supports the approach and no material approach decision remains; `RETHINK` when an evidenced simplification materially reduces distributed responsibilities or unnecessary concepts while preserving required behavior and needs a developer decision; `UNVERIFIED` when required evidence or the requested reviewer is unavailable. Optional refinements alone do not require rethinking. An explicit developer decision to retain the approach resolves that proposal; record its reason without waiving confirmed architectural violations. Confidence alone is not a gate, and proof of global optimality is not required. Keep the user-facing explanation concise.
 
 ## Explain concisely
 

@@ -7,6 +7,8 @@ description: Resolve the intended architectural scope, layer, implementation kin
 
 Return the designed responsibility profile declared for a source object. This is a read-only interpretation of the declarative architecture, not an implementation audit and not necessarily an interface contract.
 
+Before running, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
+
 ## Inputs
 
 Use the object's repository path, filename, and declaration name together. When the caller provides a method, also resolve the method role declared by its name without losing the containing object's declarations.

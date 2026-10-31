@@ -7,6 +7,8 @@ description: Decompose planned work or review a change set for excessive scope, 
 
 Keep application code and Git unchanged. Change-set audits are read-only; planning can retain ticket context and apply authorized tracker updates as described below. Recommend undoing or reorganizing work when useful, but never reset, revert, restore, uncommit, delete, stage, or commit anything without separate explicit authorization.
 
+Before running, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
+
 ## Planning and related-ticket context
 
 For task-start planning, use the active request, ticket, requirements, and constraints; no existing diff is required. Distinguish a planning proposal from a completed change-set audit. Read the active project's [ticket record contract](../../../ai_development/ticket_review_records.md) when working with ticket evidence.

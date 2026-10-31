@@ -8,6 +8,18 @@ Store related-ticket evidence in `related_issues.md` and solution reviews in `so
 
 When no ticket is known, use `ai_development/review_work/<job_key>/` temporarily. Do not invent an issue identifier or silently create a ticket. Record temporary artifacts created by the job in that folder's `artifact_inventory.md`, including their purpose, ownership, and whether useful evidence has been retained elsewhere. Use safe path components; never use a remote title or URL as a filesystem path.
 
+## Analysis reuse and stage checkpoints
+
+Continue eligible stages toward the authorized chat goal until a finding or skill requires developer attention. Before each analysis, consult conversation evidence and retained results. Reuse a current completed successful or evidenced developer-accepted assessment that satisfies the check. If finalization is already complete, confirm its status. Honor explicit fresh-review requests.
+
+User replies, explanation-level changes, and manual work do not restart the pipeline. Reconcile actual changes and evidenced manual completion; resume only missing or invalidated coverage and dependent stages. Preserve recorded decisions and approvals. Retain unresolved findings rather than rerunning to obtain a pass. Acceptance cannot waive confirmed violations or replace required verification.
+
+Reuse requires identifiable scope, supporting evidence, and matching relevant code, requirements, rules, and dependencies. Context checks also depend on task stage and consulted/available sources. A commit alone does not invalidate unchanged content; missing records do not prove a check never ran. Mark uncertain coverage explicitly. Reviewer availability is required for fresh assessments, not valid-result reuse.
+
+Keep `analysis_checkpoint.md` under the issue folder or owned temporary job folder. Record check name/scope, input fingerprints or verifiable revisions, result/evidence references, developer decisions, completed stage, unresolved findings, and next step. Reference detailed records instead of duplicating them. Audit-only invocations propose updates without writing.
+
+Changes invalidate affected checks and dependent later stages. Record-only output changes do not invalidate behavior checks unless they alter requirements or scope. Follow the finalizer's stage order; deferred checks are not passes. Prepare tracked checkpoints before a separately authorized commit; verify the final Git state read-only without rewriting them afterward. Later runs combine saved readiness evidence with current Git state.
+
 ## Reusable solution review
 
 Save an evidence summary, not private chain-of-thought or a transcript of internal deliberation. Include:
@@ -19,7 +31,7 @@ Save an evidence summary, not private chain-of-thought or a transcript of intern
 - findings, concrete alternatives assessed, concise reasons for conclusions, uncertainties, and the confidence assessment;
 - developer decisions, distinguishing proposals from accepted changes, and the inventory of temporary artifacts belonging to this review.
 
-Use a stable content fingerprint for the reviewed scope; a commit ID alone does not identify uncommitted behavior. A changed explanation level does not invalidate a review. Before reuse, compare relevant files, requirements, and constraints with the saved scope, including changed callers or newly connected paths. Recheck affected portions when they change or a follow-up exposes a gap. If coverage cannot be established, mark the record stale or unverified and inspect the necessary evidence. Preserve prior results as history instead of presenting them as current verification.
+Use a stable scope fingerprint that includes uncommitted behavior and inspected collaborators. Apply the shared reuse rules, checking changed callers and newly connected paths where relevant. Preserve superseded reviews as history, distinguishable from current verification.
 
 ## Related-ticket evidence
 

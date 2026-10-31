@@ -7,6 +7,8 @@ description: Independently audit task-specific context completeness, relevance, 
 
 Check how context was assembled for the current task, not whether the whole repository is compliant. Work from the active project's local harness. Do not change code, instructions, skills, patterns, histories, or synchronization state.
 
+Before running, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
+
 ## Establish the task independently
 
 Identify the user's actual request, current stage, approved scope, target project, and affected architectural parts from available conversation and job evidence. Do not accept the implementing agent's selected files or conclusions as proof of the correct scope. Identify uncertainties that materially affect the check; do not invent missing requirements.

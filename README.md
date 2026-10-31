@@ -97,15 +97,18 @@ The [root agent guide](AGENTS.md) detects incomplete setup in derived projects t
 
 ### When implementation is complete
 
-Run [finalize-job](.agents/skills/finalize-job/SKILL.md). Its workflow automatically includes these project-local checks when the agent executes the skill:
+Run [finalize-job](.agents/skills/finalize-job/SKILL.md). It first resolves solution guards, then checks documentation, diagnostics, and verification, and finally handles retention and Git completion. Failed or blocked guards stop later checks. Every analyzer, including context checking, reuses current completed or evidenced developer-accepted results rather than repeating unchanged analysis. Its solution guards are:
 
+- [apollo-solution-complexity-reviewer](.agents/skills/apollo-solution-complexity-reviewer/SKILL.md) — review the solution approach with Astra medium, reusing a valid saved assessment.
 - [pattern-keeper](.agents/skills/pattern-keeper/SKILL.md) — review the job against applicable implementation patterns and request corrections.
 - [check-naming](.agents/skills/check-naming/SKILL.md) — verify names express established architectural roles.
 - [check-declarative-rules](.agents/skills/check-declarative-rules/SKILL.md) — verify architectural declarations, dependency permissions, and approvals.
 - [check-responsibility-leaks](.agents/skills/check-responsibility-leaks/SKILL.md) — compare actual behavior and dependencies with declared responsibilities.
 - [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — check the final change set for independent concerns requiring separation.
-- [update-diagnostic-spec](.agents/skills/update-diagnostic-spec/SKILL.md) — audit affected features' diagnostic specifications; update mode is available during separately authorized diagnostics work.
-- [violation](.agents/skills/violation/SKILL.md) — collect remaining developer-declared violations from the conversation before the final audits.
+
+After the guards pass, [update-diagnostic-spec](.agents/skills/update-diagnostic-spec/SKILL.md) audits affected features' diagnostic specifications alongside documentation and verification checks. Update mode belongs to separately authorized diagnostics work.
+
+Preparation uses [violation](.agents/skills/violation/SKILL.md) to collect qualifying developer-declared violations before the audits.
 
 Finalization also checks verification evidence, feature documentation, protected files, retained ticket-review evidence, owned temporary-artifact cleanup, and commit state. Retention and cleanup happen before final read-only verification; audit-only requests report proposed changes. Invocation is an agent workflow requirement; evidence of execution establishes which checks actually ran.
 
@@ -115,6 +118,8 @@ Finalization also checks verification evidence, feature documentation, protected
 - [Ticket review records](ai_development/ticket_review_records.md) — shared storage, freshness, related-issue context, and retention conventions for these skills. Actual records stay project-owned.
 - [update-by-layer](.agents/skills/update-by-layer/SKILL.md) — explain changes by architectural layer and responsibility, naming objects, files, and generated updates.
 - [violation](.agents/skills/violation/SKILL.md) — record review findings declared by the developer, their cause, offending code, and confirmed intended correction.
+
+Use `$apollo-solution-complexity-reviewer level 3` after implementation. Astra medium reviews interaction chains and unnecessary concepts using an internal diagram, then explains the approach and confidence with a concise reason. Levels 1–10 control compression, not review effort; changing levels reuses valid evidence. The skill does not edit application code. See [reuse and retention rules](ai_development/ticket_review_records.md) for saved reviews and resumption.
 
 ### Investigate an existing violation
 

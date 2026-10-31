@@ -53,6 +53,8 @@ Use code fences in real entries. Examples are representative, not instructions t
 
 ## Work and finalization
 
+Preserve the full available conversation under the project's AI development guide; summaries supplement the transcript. Use staged `finalize-job`: solution guards, then documentation/diagnostics/verification, then retention and Git completion. Every analyzer follows the [shared analysis reuse rules](ticket_review_records.md#analysis-reuse-and-stage-checkpoints), including automatic continuation and resumption after developer interaction or manual work.
+
 Do not preload every pattern catalog while solving a task. Ordinary architectural and approval constraints still apply. At finalization, run the local `pattern-keeper` to resolve relevant catalogs and supervise conformity of the current uncommitted job. It issues evidence-based correction requirements; the implementation agent makes authorized code changes and reruns verification. The keeper itself does not edit code, catalogs, or harness rules, and cannot declare its own implementation to be a new approved pattern.
 
 Run the local `violation` skill during a conversation when a violation is declared and during finalization to collect any unprocessed declarations from available dialogue. Store evidence in `ai_development/violations_unsorted.md`, not in a shared upstream history. Do not infer user declarations from ordinary corrections. Missing conversation evidence is a limitation, not permission to reconstruct quotations.
@@ -71,9 +73,7 @@ The [ticket review record contract](ticket_review_records.md) defines project-ow
 
 During planning, `task-decomposer` asks once whether to investigate related issues and milestones, unless already decided. When requested, `discover-related-tickets` returns evidenced connections and focused context. The decomposer evaluates relevance, consults the developer on scope changes or conflicts, and prepares or applies authorized active-ticket updates. Read-only finalization audits do not repeat the planning question or mutate the tracker.
 
-`apollo-solution-complexity-reviewer` reconstructs the implemented algorithm as an internal sequence diagram, then uses a separate GPT-6 Astra reviewer at medium reasoning with requirements and evidence. It challenges both interaction chains and unnecessary concepts while preserving responsibilities. It saves a reusable evidence summary and explains the solution at compression levels 1–10 without padding. Changing levels reuses valid evidence; relevant changes trigger focused reassessment. Report actual reviewer settings and runtime limitations. This is available for human review, not an automatic implementation gate or mandatory finalization audit.
-
-`context-checker` includes relevant connected-ticket evidence and retained reviews in its coverage check, loading progressively and distinguishing current evidence from historical claims. Before final read-only verification, finalization retains useful ticket-linked artifacts and cleans only inventoried temporary files belonging to the current job. Audit-only requests report proposed cleanup without deleting files.
+`apollo-solution-complexity-reviewer` uses Astra medium to assess algorithm sequences and unnecessary concepts from an internal diagram. It saves ticket-linked evidence and explains at compression levels 1–10. It also supplies the solution-approach guard for staged finalization. `context-checker` includes relevant retained evidence and connected issues. Storage, freshness, and cleanup follow the ticket record contract.
 
 ## Human developer guidance
 

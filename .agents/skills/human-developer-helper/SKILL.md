@@ -23,6 +23,16 @@ Explain only the relevant part: pattern keeper supervises code conformity withou
 
 When relevant, connect failure handling, logging, and integration evidence to observable, testable behavior. Static checks and clean logs are evidence with limits, not guarantees of production readiness. Do not introduce extra tests or runtime logging merely to illustrate the method.
 
+## Guide the review workflow
+
+Give only the invocation useful at the current stage:
+
+- `$apollo-solution-complexity-reviewer level 3`: explain the implemented algorithm and question unnecessary interaction chains and concepts. Uses Astra medium; 1 is most compressed and 10 includes meaningful detail without padding. Its diagram stays internal; valid reviews are reused.
+- `$task-decomposer`: plan scope and choose whether to discover related tickets. `$context-checker`: verify relevant rules, linked issues, and retained evidence.
+- `$finalize-job`: resume solution guards, then documentation/diagnostics, then retention and Git completion. Identify the current stage and unresolved decision rather than reciting the checklist.
+
+Use the [shared reuse and retention rules](../../../ai_development/ticket_review_records.md) when explaining resumption. Follow the project's full-transcript requirement; summaries supplement the transcript.
+
 ## Authority
 
 This skill provides guidance only. It does not authorize code or catalog changes, synchronization, commits, or automatic maintenance and audit runs. Follow existing approval and execution rules for the suggested next step. Report uncertainty briefly instead of inventing project state or implying unavailable verification.
