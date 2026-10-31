@@ -25,4 +25,6 @@ After approval, update only the agreed catalog/harness files. Preserve the cause
 
 ## Completion
 
+After completing the agreed maintenance scope, record the completion timestamp and chat reference in the project's setup record under the [maintenance convention](../../../ai_development/project_management.md#project-setup-record). Record partial work as pending until that scope is complete.
+
 Report findings, decisions, exact changes, evidence transfers, and pending issues. Do not alter application code, automatically run during normal finalization, silently synchronize projects, or commit changes. Common approved improvements can be synchronized separately; project patterns and violation history remain local.

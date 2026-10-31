@@ -77,6 +77,8 @@ During planning, `task-decomposer` asks once whether to investigate related issu
 
 ## Human developer guidance
 
+The repository-root `AGENTS.md` routes application setup, development-request triage, and weekly maintenance suggestions. Load the focused [project management conventions](project_management.md) when working with those capabilities; the project's setup record owns its chosen system, follow-up chats, and maintenance date.
+
 The local human-developer-helper gives concise orientation when requested or when a meaningful transition needs explanation. Its default is two or three sharp sentences: current stage, direct next step, and why that step follows. It uses the actual task, approval state, and verification evidence, expanding only on request rather than repeating onboarding or listing every skill.
 
 The helper explains the declarative approach and relevant local capabilities in context. It provides guidance, not execution authority or an automatic audit/maintenance stage; suggesting a next step does not approve it. It distinguishes proposals, implemented changes, and verified behavior without claiming that declarations or clean checks guarantee production readiness.

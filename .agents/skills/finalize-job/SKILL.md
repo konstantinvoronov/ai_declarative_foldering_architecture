@@ -74,3 +74,5 @@ Return a concise checklist with one of these results for each area:
 - `NOT APPLICABLE`: explain why the requirement does not apply.
 
 Cover pattern conformance, violation-capture evidence, declarative architecture, naming and responsibility alignment, behavioral responsibility leakage, task decomposition, protected files and approvals, feature specification, implementation plan, development history, diagnostic coverage and log specification, verification evidence, review-record retention and cleanup, and commit state. Finish with an overall result. Mark the job finalized only when every applicable item passes, the pattern keeper passes, the naming audit has no confirmed violation or unresolved rule conflict, the responsibility audit has no confirmed leak, the task decomposer does not recommend a split, and the diagnostic audit requires no update.
+
+After successful verification, hand off the [ticket-state update](../../../ai_development/project_management.md#finalization-handoff) to the project management workflow outside this audit, including the chat's state prefix and any pending tracker transition.

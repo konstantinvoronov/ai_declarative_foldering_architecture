@@ -164,6 +164,24 @@
       "path": "lib/AGENTS.md",
       "start_marker": "<!-- shared-ai-harness:start -->",
       "end_marker": "<!-- shared-ai-harness:end -->"
+    },
+    {
+      "path": "AGENTS.md"
+    },
+    {
+      "path": "ai_development/project_management.md"
+    },
+    {
+      "path": ".agents/skills/setup-apollo-declarative/SKILL.md"
+    },
+    {
+      "path": ".agents/skills/triage-apollo-declarative/SKILL.md"
+    },
+    {
+      "path": ".agents/skills/decompose-project-apollo-declarative/SKILL.md"
+    },
+    {
+      "path": ".agents/skills/create-icon-apollo-declarative/SKILL.md"
     }
   ]
 }

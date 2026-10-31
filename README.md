@@ -27,7 +27,7 @@ Create an empty destination repository first. These commands preserve the starti
 Open the checkout in your AI coding tool and start with:
 
 ```text
-Read lib/AGENTS.md and ai_development/ai_harness.md. Use this project's local skills. We are starting a new application: <describe the idea>. Inspect the inherited blueprint, propose the first minimal working feature, and show the objects, responsibilities, layers, exact paths, and affected files. Run context-checker after drafting the plan and present it for approval.
+Read AGENTS.md, lib/AGENTS.md, and ai_development/ai_harness.md. Use this project's local skills. We are starting a new application: <describe the idea>. Complete applicable application setup, then inspect the inherited blueprint, propose the first minimal working feature, and show the objects, responsibilities, layers, exact paths, and affected files. Run context-checker after drafting the plan and present it for approval.
 ```
 
 Expected next step: approve a small implementation plan and the necessary project identity changes.
@@ -49,7 +49,7 @@ Use an empty destination repository. Push the approved baseline with `git push -
 First prompt:
 
 ```text
-Read lib/AGENTS.md and ai_development/ai_harness.md. Use this project's local skills. Plan adapting Apollo for <describe the application>, including its display name, Dart package, native identifiers, and first feature. Identify the existing examples and reusable foundations to retain. Show proposed objects, roles, layers, paths, and affected files; run context-checker before presenting the plan for approval.
+Read AGENTS.md, lib/AGENTS.md, and ai_development/ai_harness.md. Use this project's local skills. Complete applicable application setup, then plan adapting Apollo for <describe the application>, including its display name, Dart package, native identifiers, and first feature. Identify the existing examples and reusable foundations to retain. Show proposed objects, roles, layers, paths, and affected files; run context-checker before presenting the plan for approval.
 ```
 
 Expected next step: approve the identity and first-feature adaptation before implementation.
@@ -73,6 +73,16 @@ Expected next step: review conflicts and approve selected harness changes. Apply
 ## AI skills by workflow stage
 
 Skill names below link to the project-local definitions. Invoke them using `$skill-name` in a compatible AI tool. The agent performs the checks described by the skills and reports evidence.
+
+### Application setup and project management
+
+The [root agent guide](AGENTS.md) detects incomplete setup in derived projects that retain Apollo's default identity. [Setup](.agents/skills/setup-apollo-declarative/SKILL.md) collects the app name and IDs, offers registration and icon chats, establishes the chosen project management system, and offers upstream repository follow-ups. GitHub with GitHub Projects is recommended; dashboard support adapts to the connected plugin. Confirmed choices and completion status belong to the project's `ai_development/project_setup.json`.
+
+- [triage-apollo-declarative](.agents/skills/triage-apollo-declarative/SKILL.md) connects requested changes to tracked work and reuses development skills for context and planning.
+- [decompose-project-apollo-declarative](.agents/skills/decompose-project-apollo-declarative/SKILL.md) assesses milestones for useful issues or smaller milestones.
+- [create-icon-apollo-declarative](.agents/skills/create-icon-apollo-declarative/SKILL.md) is the initial placeholder for a separate app-icon chat.
+
+[Shared conventions](ai_development/project_management.md) define setup records, `[State] Item title` chat names, adaptive tracker states, the post-finalization handoff, and weekly maintenance suggestions.
 
 ### Orientation and architectural design
 
