@@ -82,7 +82,8 @@ Skill names below link to the project-local definitions. Invoke them using `$ski
 ### After the initial plan is built
 
 - [context-checker](.agents/skills/context-checker/SKILL.md) — verify the plan uses sufficient, relevant context and correctly interprets applicable instructions.
-- [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — review whether work should be split into smaller independent tasks; its current audit inputs are working-tree, staged, or committed changes. Use that evidence when available and distinguish planning recommendations from a completed change-set audit.
+- [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — plan coherent tasks or review working-tree, staged, or committed changes; offer related-ticket discovery during planning and evaluate useful context.
+- [discover-related-tickets](.agents/skills/discover-related-tickets/SKILL.md) — find evidenced related issues and milestones for the decomposer without changing the tracker.
 
 ### When implementation is complete
 
@@ -96,10 +97,12 @@ Run [finalize-job](.agents/skills/finalize-job/SKILL.md). Its workflow automatic
 - [update-diagnostic-spec](.agents/skills/update-diagnostic-spec/SKILL.md) — audit affected features' diagnostic specifications; update mode is available during separately authorized diagnostics work.
 - [violation](.agents/skills/violation/SKILL.md) — collect remaining developer-declared violations from the conversation before the final audits.
 
-Finalization also checks verification evidence, feature documentation, protected files, and commit state. Invocation is an agent workflow requirement; evidence of execution establishes which checks actually ran.
+Finalization also checks verification evidence, feature documentation, protected files, retained ticket-review evidence, owned temporary-artifact cleanup, and commit state. Retention and cleanup happen before final read-only verification; audit-only requests report proposed changes. Invocation is an agent workflow requirement; evidence of execution establishes which checks actually ran.
 
 ### Understand changes and review code
 
+- [apollo-solution-complexity-reviewer](.agents/skills/apollo-solution-complexity-reviewer/SKILL.md) — review algorithm sequences and conceptual complexity with Astra medium, save ticket-linked evidence, and explain concisely at levels 1–10 without repeating valid reviews.
+- [Ticket review records](ai_development/ticket_review_records.md) — shared storage, freshness, related-issue context, and retention conventions for these skills. Actual records stay project-owned.
 - [update-by-layer](.agents/skills/update-by-layer/SKILL.md) — explain changes by architectural layer and responsibility, naming objects, files, and generated updates.
 - [violation](.agents/skills/violation/SKILL.md) — record review findings declared by the developer, their cause, offending code, and confirmed intended correction.
 

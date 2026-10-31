@@ -1,4 +1,4 @@
 interface:
   display_name: "Task Decomposer"
-  short_description: "Recommend smaller coherent tasks and commits"
-  default_prompt: "Use $task-decomposer to review the current change scope and recommend smaller approachable tasks and commits when needed."
+  short_description: "Plan coherent tasks using relevant ticket context"
+  default_prompt: "Use $task-decomposer to plan or review the current task scope, offer related-ticket discovery during planning, and recommend smaller coherent tasks when needed."

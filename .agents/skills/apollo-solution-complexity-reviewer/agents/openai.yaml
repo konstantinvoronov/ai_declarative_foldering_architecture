@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apollo Solution Complexity Reviewer"
+  short_description: "Review solution sequences and conceptual complexity"
+  default_prompt: "Use $apollo-solution-complexity-reviewer to review the current solution with Astra medium and explain it concisely at level 1, reusing valid ticket evidence."

@@ -65,6 +65,16 @@ The local context-checker can independently audit context health at any task sta
 
 The checker is read-only and separate from harness maintenance. Its own inspection reads do not prove that the implementation agent had the same context earlier. When loading evidence or historical source versions are unavailable, it reports unverified coverage rather than claiming visibility into hidden model state. It recommends focused context corrections without editing code, rules, or catalogs. This is available at any stage, not a new mandatory check on every task or an automatic finalization prerequisite.
 
+## Ticket context and solution reviews
+
+The [ticket review record contract](ticket_review_records.md) defines project-owned issue context, reusable solution reviews, freshness checks, and temporary-artifact retention. Keep records under unambiguous issue identifiers so reopened and connected tickets can reuse relevant evidence. Historical reviews remain evidence to verify, not governing architecture or proof about current code.
+
+During planning, `task-decomposer` asks once whether to investigate related issues and milestones, unless already decided. When requested, `discover-related-tickets` returns evidenced connections and focused context. The decomposer evaluates relevance, consults the developer on scope changes or conflicts, and prepares or applies authorized active-ticket updates. Read-only finalization audits do not repeat the planning question or mutate the tracker.
+
+`apollo-solution-complexity-reviewer` reconstructs the implemented algorithm as an internal sequence diagram, then uses a separate GPT-6 Astra reviewer at medium reasoning with requirements and evidence. It challenges both interaction chains and unnecessary concepts while preserving responsibilities. It saves a reusable evidence summary and explains the solution at compression levels 1–10 without padding. Changing levels reuses valid evidence; relevant changes trigger focused reassessment. Report actual reviewer settings and runtime limitations. This is available for human review, not an automatic implementation gate or mandatory finalization audit.
+
+`context-checker` includes relevant connected-ticket evidence and retained reviews in its coverage check, loading progressively and distinguishing current evidence from historical claims. Before final read-only verification, finalization retains useful ticket-linked artifacts and cleans only inventoried temporary files belonging to the current job. Audit-only requests report proposed cleanup without deleting files.
+
 ## Human developer guidance
 
 The local human-developer-helper gives concise orientation when requested or when a meaningful transition needs explanation. Its default is two or three sharp sentences: current stage, direct next step, and why that step follows. It uses the actual task, approval state, and verification evidence, expanding only on request rather than repeating onboarding or listing every skill.

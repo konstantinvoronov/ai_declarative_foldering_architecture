@@ -15,6 +15,12 @@ Run the local pattern-keeper against the current uncommitted job and its cumulat
 
 Only after that preparation run the final read-only audits below on the resulting code. Harness maintenance is not part of normal finalization; invoke maintain-ai-harness only at the developer's explicit request. Finalization never updates catalogs to make code pass.
 
+## Retain review evidence before final verification
+
+During preparation, apply the active project's [ticket record contract](../../../ai_development/ticket_review_records.md) to existing current-job review artifacts. Keep useful ticket-linked diagrams, findings, decisions, and evidence under the issue identifier, including relevant links to connected tickets. Verify retained contents before removing redundant temporary copies. Remove only inventoried, current-job-owned temporary artifacts whose contents have been retained or are no longer needed. Preserve useful records without an assigned ticket and report pending association; leave uncertain ownership untouched. Do not sweep other tickets, histories, logs, or unrelated files. Audit-only requests report the proposed retention and cleanup without making changes.
+
+Perform this preparation before the final read-only pass. Include any retained job records in the commit-state audit. Once final verification begins, report remaining retention problems instead of changing files. Existing complexity-review records are checked for scope and freshness; absence of a review does not make the new reviewer a mandatory finalization step.
+
 ## Required project-local audits
 
 Load and run the project-local `check-declarative-rules` skill for the current job. Use its report as the architecture-compliance result.
@@ -54,6 +60,8 @@ Verify that changed behavior has diagnostic evidence sufficient for the feature'
 
 ## Audit Git completion
 
+Audit retained review records and the temporary-artifact inventory against the ticket record contract. Confirm useful records are retained under the correct issue identity and cleanup stayed within current-job ownership. Report intentional retention and any unresolved association or ownership question separately; never delete useful unassigned evidence merely to obtain a clean tree.
+
 Inspect repository status and relevant commit history. The job is committed only when every current-job change is included in a commit and no current-job file remains staged, modified, deleted, or untracked. Do not create, amend, squash, push, or otherwise modify commits as part of this audit.
 
 ## Report
@@ -65,4 +73,4 @@ Return a concise checklist with one of these results for each area:
 - `BLOCKED`: required evidence is unavailable;
 - `NOT APPLICABLE`: explain why the requirement does not apply.
 
-Cover pattern conformance, violation-capture evidence, declarative architecture, naming and responsibility alignment, behavioral responsibility leakage, task decomposition, protected files and approvals, feature specification, implementation plan, development history, diagnostic coverage and log specification, verification evidence, and commit state. Finish with an overall result. Mark the job finalized only when every applicable item passes, the pattern keeper passes, the naming audit has no confirmed violation or unresolved rule conflict, the responsibility audit has no confirmed leak, the task decomposer does not recommend a split, and the diagnostic audit requires no update.
+Cover pattern conformance, violation-capture evidence, declarative architecture, naming and responsibility alignment, behavioral responsibility leakage, task decomposition, protected files and approvals, feature specification, implementation plan, development history, diagnostic coverage and log specification, verification evidence, review-record retention and cleanup, and commit state. Finish with an overall result. Mark the job finalized only when every applicable item passes, the pattern keeper passes, the naming audit has no confirmed violation or unresolved rule conflict, the responsibility audit has no confirmed leak, the task decomposer does not recommend a split, and the diagnostic audit requires no update.

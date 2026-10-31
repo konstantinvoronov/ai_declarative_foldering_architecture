@@ -19,6 +19,10 @@ Include relevant dependency-endpoint rules and referenced contracts when the tas
 
 ## Compare required and observed context
 
+For ticket-based work, use the active project's [ticket record contract](../../../ai_development/ticket_review_records.md). Check the active issue's recorded relationships, available tracker links, and relevant retained discovery and solution-review summaries, including evidenced connected issues and milestone constraints. Reuse discovery evidence from `discover-related-tickets`; this check does not authorize a new broad ticket search. When current relationships have not been checked or tracker access is unavailable, report that coverage as unverified rather than claiming no connections exist.
+
+Identify which linked requirements, decisions, and review artifacts are relevant at the current stage. Inspect the necessary records and recommend loading missing relevant sources without copying every related issue into context. Check issue/repository identity and review fingerprints against current requirements, constraints, and code. Historical diagrams and findings are evidence to reassess, not current verification or authority overriding the developer. Distinguish your own reads from evidence that the implementing agent used those records. Report missing records only when there is evidence they should exist; their absence alone does not require running a complexity review.
+
 Use available conversation, automatically supplied instructions, explicit read/tool evidence, and any recorded context inventory. Distinguish what was supplied, what was actually consulted, and what is only claimed. A missing explicit read call does not prove automatically supplied instructions were absent.
 
 Keep your own verification reads separate from evidence of what the implementation agent had at the time of a decision. Reading a source now does not retroactively prove it was loaded earlier. If a file changed, distinguish its current content from the version available at that earlier point.
