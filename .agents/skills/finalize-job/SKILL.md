@@ -5,7 +5,7 @@ description: Resume staged finalization, reusing current completed or developer-
 
 # Finalize Job
 
-Use this project's local skills and `ai_development/ai_harness.md`. Run stages in order; stop at an unresolved gate instead of running every check. Audits are read-only except for the described evidence capture and retention preparation. Source corrections and separately authorized commits happen outside the audits. Do not modify patterns or tracker items.
+Use this project's local skills and `ai_development/ai_harness.md`. When the developer explicitly supplies a skill definition for a named guard, use that definition while applying the reviewed project's own architectural rules, scoped patterns and evidence. Run stages in order; stop at an unresolved gate instead of running every check. Audits are read-only except for the described evidence capture and retention preparation. Source corrections and separately authorized commits happen outside the audits. Do not modify patterns or tracker items.
 
 ## Establish scope and resume
 
@@ -26,7 +26,7 @@ Run or reuse these local guards against the same solution:
 
 Stop at a failed or blocked guard. Report its evidence and next decision or correction; mark later checks `NOT RUN`. Do not run documentation, diagnostic, or completion checks while this gate is unresolved. Make authorized corrections outside the audits and resume affected guards.
 
-Proceed only when every applicable guard passes or has an evidenced not-applicable result. Missing required local skills are blocked checks.
+Proceed only when every applicable guard passes or has an evidenced not-applicable result. A required guard is blocked when neither a project-local skill nor an explicitly developer-supplied definition is available.
 
 ## Stage 2 — Documentation, diagnostics, and verification
 

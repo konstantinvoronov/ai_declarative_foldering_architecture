@@ -76,7 +76,7 @@ Allowed Files  exact filenames / filename patterns  / file roles / direct names 
 
 Local `AGENTS.md` files use the applicable section names and order from `/lib/local_template.md`. Include only uncovered requirements or exceptions; omit inherited sections rather than restating them.
 
-Before updating any `.md` file anywhere in the project, the agent MUST present the proposed content to the user and receive explicit approval. Drafting the change without writing it to the project is allowed.
+Before updating any `AGENTS.md` file anywhere in the project, the agent MUST present the proposed content to the user and receive explicit approval. Drafting the change without writing it to the project is allowed.
 
 
 
