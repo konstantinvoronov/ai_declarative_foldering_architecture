@@ -47,3 +47,17 @@ The [full available conversation](project_management_conversation_transcript.md)
 ## 2026-10-31 — Ticket association and commit
 
 After the developer explicitly authorized the embedded browser, created [GitHub issue #1](https://github.com/konstantinvoronov/ai_declarative_foldering_architecture/issues/1), Track Apollo skill workflow updates. Associated the staged follow-up with this issue for the authorized commit. Existing validation evidence is reused; final commit state is verified read-only. The unrelated branding skill remains excluded.
+
+## 2026-11-01 — Derived-app Firebase setup and explicit reviewer selection
+
+The developer required Firebase/APNs configuration to belong to each derived application's setup because Apollo is a framework. The exact approved setup amendment adds iOS/Android project/app selection, native configuration/resource verification, APNs/signing progress, registration ownership and per-platform verification records. Unavailable backend storage/sending remains pending. The setup skill and supporting conventions were published to Apollo; no specific Firebase project was configured for the framework.
+
+During finalization, the developer explicitly supplied the existing complexity-review skill and approved the exact finalizer amendment accepting that selected definition while preserving the reviewed project's architecture/pattern authority. A separate Astra medium review returned READY for the notification approach. The developer then accepted separate finalization scopes for runtime notifications, setup workflow and the finalizer correction. The unrelated pre-existing branding skill remains excluded.
+
+The [full available conversation transcript](notifications_conversation_transcript.md) retains typed and voice dialogue and the approval responses. Skill/schema/synchronization checks passed in their recorded scopes; live setup against a derived app was not executed. Full finalization and Git completion remain pending their respective gates.
+
+## 2026-11-01 — Approval scope correction
+
+The developer clarified “it should any Agents.md file” and then requested “lets update this rule.” Updated only the approval sentence in lib/AGENTS.md so it governs AGENTS.md files rather than every Markdown file. Existing task authorization covers ordinary specification, history and diagnostic Markdown. The full conversation transcript retains the clarification and source-specific approval. The earlier generic Xcode/CocoaPods gate was a tooling-skill detour; Apollo retains its established Flutter/CocoaPods workflow.
+
+The agent subsequently displayed the complete revised AGENTS.md approval sentence and the developer replied “aprove,” explicitly confirming that exact wording. It was retained without further guide modification.

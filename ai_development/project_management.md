@@ -24,6 +24,17 @@ The record has this shape; `null` means unknown and optional choices may be reco
     "project_url": null,
     "state_mapping": {}
   },
+  "firebase_notifications": {
+    "choice": null,
+    "project_id": null,
+    "android_app_id": null,
+    "ios_app_id": null,
+    "configuration": {"android": null, "ios": null},
+    "apns": null,
+    "registration_owner": null,
+    "verification": {"android": null, "ios": null},
+    "pending_actions": []
+  },
   "follow_up_chats": {
     "app_store_connect": null,
     "google_play": null,
@@ -43,6 +54,8 @@ The record has this shape; `null` means unknown and optional choices may be reco
 ```
 
 Each accepted follow-up records the returned chat identifier/link and its actual progress; a declined offer records that choice. Set `setup_complete` after identity and project management choices are confirmed and the setup offers are resolved. Registration and artwork progress remain separate from setup completion. Maintenance completion uses an ISO 8601 timestamp with timezone after the maintenance skill completes its agreed scope.
+
+Resolve the optional Firebase choice as enabled, declined or deferred. Firebase configuration, APNs readiness, registration handoff and device verification retain their own progress separately from core setup completion. Use `firebase_notifications` for confirmed identifiers, observed per-platform progress and pending actions; keep private credentials in the selected credential provider or secure local location.
 
 Project setup and work-item records remain project-owned. Shared synchronization carries the instructions; each derived project establishes its own configuration. Plugin connections own credentials.
 
