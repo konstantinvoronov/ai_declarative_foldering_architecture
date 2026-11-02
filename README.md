@@ -1,12 +1,16 @@
-# Flutter AI agent enviroment with rules promoting Declarative Foldering Architecture
+# Apollo Declarative
+
+Architecture and a project-local AI development harness for human-in-the-loop Flutter development.
+
+Apollo Declarative gives developers and coding agents a shared way to decide where code belongs, what it may depend on, and how a change should be reviewed. This repository provides the architecture blueprint and reusable harness; [Apollo's working scaffold](https://github.com/konstantinvoronov/apollo-declarative) applies them in a Flutter application. The workflow guides the developer and agent from discussing a change and resolving architectural responsibilities through planning, implementation, and review.
+
+The developer directs requirements, architectural decisions, and approvals; the coding agent assists with investigation, planning, implementation, and verification. This **human-in-the-loop development** workflow keeps decisions and review evidence available for the developer to inspect and refine.
+
+Its architectural foundation, **Declarative Foldering**, uses folders and scoped instructions to declare object responsibilities, dependency boundaries, and entrypoints. Project-local skills help the agent apply those declarations throughout the development process.
+
+Apollo applies **harness engineering** through repository instructions, reusable skills, and staged reviews. Its **context engineering** centers on applicable architecture rules, task context, and recorded decisions, with [context-checker](.agents/skills/context-checker/SKILL.md) auditing relevance and coverage.
 
 ## Getting Started
-
-### What is declarative foldering structure in AI
-
-This is a fresh new approach for developing flutter mobile app eighter with big proportion of Ai assiastance or clean Vibe coding.
-It contains a set of instruction guiding AI in helping Flutter developers, to use foldering structure as declaration interface of responisbilities, dependecies, and limitation for files located within the folder.
-It is also a checking script that mechanically verifyes that ai is not drifing aways and keeps executing basic principales defined in the foldeing architecture.
 
 ### Start a project from Git
 
@@ -139,33 +143,9 @@ These tracking files remain project-owned. The skill uses the shared manifest to
 
 Project-wide patterns live in [ai_development/patterns.md](ai_development/patterns.md). Folder catalogs add scoped rules and specific overrides. Follow the [AI harness](ai_development/ai_harness.md) for execution, approvals, and synchronization, and the [foldering contract](ai_development/declarative_foldering_rules.md) for architecture.
 
-###
+## Project status
 
-As an evangelist for declarative patterns—especially in Flutter—I’m introducing a way to organize and layer your projects so the AI can easily follow along. That means you get a human-friendly, declarative roadmap right from the start.
-
-
-
-## Pain it is supposed to solve
-
-One of the main problems I'm trying to solve with this declarative architecture repository is how large language models (LLMs) are trained. Typically, LLMs build their expertise on a huge amount of Stack Overflow answers and GitHub examples, but these are often small snippets or simple sample projects. That means the AI is really good at handling smaller, less sophisticated tasks because they don't require complex architecture. But when it comes to bigger, more complicated, production-ready projects, the AI can struggle unless it’s given a more precise and structured set of instructions.
-
-So the goal here is to take that small-piece expertise that the LLM already has and shape it into something more suitable for bigger, declarative, and complex architectures. In other words, we're giving the AI a more detailed, declarative framework so it can handle larger-scale, production-level projects more effectively.
-
-
-## What can you expect in the repo? 
-
-It’s essentially a ready-made folder structure along with a set of instructions that guide both the AI (and human developers) on how to handle responsibilities between layers, manage dependencies, and keep everything interconnected in a clear, declarative way. Plus, there’s a built-in linter that will analyze changes and help both you and the AI keep things human-readable and dependable.
-
-
-In this repository, I’m diving into my passion for declarative development patterns in Flutter. While I’m enthusiastic about sharing these ideas, I also see this as an experiment and a work in progress. I’m here to learn and refine these concepts along the way, and I welcome any feedback from the community as we grow this together. This project is all about exploring and making declarative patterns accessible in a supportive and collaborative way.
-
-## And beyond just guiding the AI, 
-
-this repository is designed for “vibe coders”—developers who want a clear, step-by-step structure for planning, implementing, and reviewing their code. It’s about helping the AI guide the human developer through a well-structured process so that even larger, more complex projects feel manageable. By answering the AI’s questions and following the prompts, developers can keep their workflow organized and aligned with best practices, ultimately making the whole development experience smoother and more scalable.
-
-
-
-This project is a starting point for a Flutter application.
+Apollo Declarative is an evolving architecture and development-workflow project. Feedback from developers using coding agents on Flutter applications helps refine its folder contracts, skills, and review process. Community feedback and contributions are welcome.
 
 A few resources to get you started if this is your first Flutter project:
 
