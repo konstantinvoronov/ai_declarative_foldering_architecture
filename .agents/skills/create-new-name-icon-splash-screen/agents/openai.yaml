@@ -1,0 +1,4 @@
+interface:
+  display_name: "App Name, Icon & Splash"
+  short_description: "Rebrand Apollo apps with themed icons and splash"
+  default_prompt: "Use $create-new-name-icon-splash-screen to update this Apollo project’s app name, icons, and light/dark native splash screens."
