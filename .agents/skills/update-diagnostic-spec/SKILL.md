@@ -10,7 +10,7 @@ Keep feature diagnostics useful without expanding production behavior merely to 
 ## Choose the mode
 
 - `audit`: read-only. Use this mode when called by `finalize-job` or when the user asks what diagnostic work is missing.
-- `update`: use only when the user explicitly asks to update the feature's diagnostic specification. Present the exact proposed Markdown changes and receive the developer's approval before writing them, as required by the project rules.
+- `update`: create or update the diagnostic specification when covered by the developer's task authorization, including documentation corrections needed during finalization. Ordinary specifications, plans, histories and diagnostic Markdown do not require separate wording approval. Present exact proposed content and obtain explicit approval only for changes to `AGENTS.md` files. Keep audits read-only; apply authorized documentation corrections outside the audit, then resume it.
 
 Neither mode authorizes new runtime implementation solely for logging.
 

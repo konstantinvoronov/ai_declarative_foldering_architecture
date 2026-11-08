@@ -24,7 +24,7 @@ Check:
 - both `May Import From` and `May Be Imported By` for each changed dependency;
 - public, shared, DI, and routing entrypoints;
 - read-only or protected locations;
-- required developer approval before documentation changes;
+- explicit proposed-content approval for `AGENTS.md` changes; ordinary documentation follows existing task authorization;
 - any explicit forbidden pattern in the applicable rules.
 
 Inspect source imports and exports rather than relying only on folder names. A shared entrypoint permits only the consumer layers explicitly declared for that shared folder.
