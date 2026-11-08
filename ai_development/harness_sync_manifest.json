@@ -2,21 +2,6 @@
   "version": 1,
   "shared": [
     {
-      "path": ".agents/skills/apollo-solution-complexity-reviewer/SKILL.md"
-    },
-    {
-      "path": ".agents/skills/apollo-solution-complexity-reviewer/agents/openai.yaml"
-    },
-    {
-      "path": ".agents/skills/discover-related-tickets/SKILL.md"
-    },
-    {
-      "path": ".agents/skills/discover-related-tickets/agents/openai.yaml"
-    },
-    {
-      "path": "ai_development/ticket_review_records.md"
-    },
-    {
       "path": ".agents/skills/update-framework-harness/SKILL.md"
     },
     {
@@ -164,24 +149,6 @@
       "path": "lib/AGENTS.md",
       "start_marker": "<!-- shared-ai-harness:start -->",
       "end_marker": "<!-- shared-ai-harness:end -->"
-    },
-    {
-      "path": "AGENTS.md"
-    },
-    {
-      "path": "ai_development/project_management.md"
-    },
-    {
-      "path": ".agents/skills/setup-apollo-declarative/SKILL.md"
-    },
-    {
-      "path": ".agents/skills/triage-apollo-declarative/SKILL.md"
-    },
-    {
-      "path": ".agents/skills/decompose-project-apollo-declarative/SKILL.md"
-    },
-    {
-      "path": ".agents/skills/create-icon-apollo-declarative/SKILL.md"
     }
   ]
 }

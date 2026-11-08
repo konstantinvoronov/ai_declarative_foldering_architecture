@@ -7,8 +7,6 @@ description: Independently audit task-specific context completeness, relevance, 
 
 Check how context was assembled for the current task, not whether the whole repository is compliant. Work from the active project's local harness. Do not change code, instructions, skills, patterns, histories, or synchronization state.
 
-Before running, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
-
 ## Establish the task independently
 
 Identify the user's actual request, current stage, approved scope, target project, and affected architectural parts from available conversation and job evidence. Do not accept the implementing agent's selected files or conclusions as proof of the correct scope. Identify uncertainties that materially affect the check; do not invent missing requirements.
@@ -20,10 +18,6 @@ Use the project's instruction entrypoints and governing declarative document to 
 Include relevant dependency-endpoint rules and referenced contracts when the task crosses a boundary. Include required source/example files when they establish the requested pattern, but distinguish implementation evidence from authoritative instructions. Respect the project's progressive loading: do not require every pattern catalog at every stage or read all AGENTS files in the repository merely to check context.
 
 ## Compare required and observed context
-
-For ticket-based work, use the active project's [ticket record contract](../../../ai_development/ticket_review_records.md). Check the active issue's recorded relationships, available tracker links, and relevant retained discovery and solution-review summaries, including evidenced connected issues and milestone constraints. Reuse discovery evidence from `discover-related-tickets`; this check does not authorize a new broad ticket search. When current relationships have not been checked or tracker access is unavailable, report that coverage as unverified rather than claiming no connections exist.
-
-Identify which linked requirements, decisions, and review artifacts are relevant at the current stage. Inspect the necessary records and recommend loading missing relevant sources without copying every related issue into context. Check issue/repository identity and review fingerprints against current requirements, constraints, and code. Historical diagrams and findings are evidence to reassess, not current verification or authority overriding the developer. Distinguish your own reads from evidence that the implementing agent used those records. Report missing records only when there is evidence they should exist; their absence alone does not require running a complexity review.
 
 Use available conversation, automatically supplied instructions, explicit read/tool evidence, and any recorded context inventory. Distinguish what was supplied, what was actually consulted, and what is only claimed. A missing explicit read call does not prove automatically supplied instructions were absent.
 

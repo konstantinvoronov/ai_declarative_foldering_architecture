@@ -7,8 +7,6 @@ description: Audit code and documentation changes against every applicable decla
 
 Perform a read-only compliance audit. Do not modify files, repair findings, or infer approval that the developer did not provide.
 
-Before running, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
-
 ## Determine the change scope
 
 Use the target commit, commit range, staged changes, or working-tree changes named by the caller. When no target is named, audit the current job's changes using the conversation and Git evidence. Separate unrelated pre-existing changes and report uncertainty instead of assigning them to the current job.

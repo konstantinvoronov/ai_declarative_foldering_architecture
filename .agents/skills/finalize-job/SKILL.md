@@ -1,58 +1,68 @@
 ---
 name: finalize-job
-description: Resume staged finalization, reusing current completed or developer-accepted analyses and passing solution guards before documentation, diagnostics, retention, and Git completion checks.
+description: Audit a completed development job against this repository's declarative architecture, protected-file rules, feature documentation, diagnostic-log specification, verification evidence, and Git commit state. Use when the user asks to finalize, close, complete, or verify a job before handoff.
 ---
 
 # Finalize Job
 
-Use this project's local skills and `ai_development/ai_harness.md`. When the developer explicitly supplies a skill definition for a named guard, use that definition while applying the reviewed project's own architectural rules, scoped patterns and evidence. Run stages in order; stop at an unresolved gate instead of running every check. Audits are read-only except for the described evidence capture and retention preparation. Source corrections and separately authorized commits happen outside the audits. Do not modify patterns or tracker items.
+Use this project's local skills and ai_development/ai_harness.md, not a sibling checkout's definitions. The final verification pass is read-only: do not create commits or silently repair findings. Pattern enforcement and violation capture run before that pass as described below. Existing source-edit and approval boundaries remain active.
 
-## Establish scope and resume
+## Preparation before the final audit
 
-Identify current-job changes from conversation and Git evidence, separating unrelated work. Apply the shared [analysis reuse and checkpoint rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints) before running checks. Resume outstanding coverage; confirm an already completed valid finalization without rerunning it.
+Run the local violation skill over the available conversation to collect unprocessed developer-declared violations into the project-owned history, without inventing declarations or duplicating existing records. This authorized evidence capture may append history; it does not modify source or patterns. Report unavailable conversation evidence explicitly.
 
-Use the local `violation` skill to capture unprocessed qualifying developer-declared code violations from available conversation. Ordinary feedback is not a violation declaration. Reuse existing capture evidence; do not duplicate records.
+Run the local pattern-keeper against the current uncommitted job and its cumulative scoped catalogs. It supervises and requires conformity without editing files. If it reports required code corrections, return to the implementation phase: obtain any approval required by the project, make authorized corrections, then rerun the keeper and affected verification. Do not finalize a job with confirmed pattern deviations or unresolved effective-rule conflicts. An empty catalog is not a reason to invent patterns.
 
-## Stage 1 — Solution guards
+Only after that preparation run the final read-only audits below on the resulting code. Harness maintenance is not part of normal finalization; invoke maintain-ai-harness only at the developer's explicit request. Finalization never updates catalogs to make code pass.
 
-Run or reuse these local guards against the same solution:
+## Required project-local audits
 
-1. `apollo-solution-complexity-reviewer`: GPT-6 Astra at medium reasoning; explanation level 1 unless requested otherwise. Use its internal `READY`, `RETHINK`, or `UNVERIFIED` outcome. A material approach decision must be resolved before continuing. Missing required evidence blocks the check. Genuinely non-algorithmic documentation-only changes may be not applicable with a scope-specific reason.
-2. `check-responsibility-leaks`, including its local responsibility resolver: confirmed leaks or declaration violations fail; unresolved effective-rule conflicts and missing required evidence block.
-3. `pattern-keeper`: check cumulative scoped patterns without editing source or catalogs. An empty applicable catalog may pass.
-4. `check-declarative-rules`: use the complete placement, dependency, entrypoint, protection, and approval audit rather than a superficial folder check.
-5. `check-naming`: confirmed naming violations or unresolved naming-rule conflicts prevent passing; optional improvements do not.
-6. `task-decomposer` in change-set audit mode: a split recommendation prevents passing. Do not repeat its planning discovery question, mutate tickets, or reorganize Git.
+Load and run the project-local `check-declarative-rules` skill for the current job. Use its report as the architecture-compliance result.
 
-Stop at a failed or blocked guard. Report its evidence and next decision or correction; mark later checks `NOT RUN`. Do not run documentation, diagnostic, or completion checks while this gate is unresolved. Make authorized corrections outside the audits and resume affected guards.
+Load and run the project-local `check-naming` skill for the current job. Any confirmed naming violation or unresolved naming-rule conflict means the job is not ready to finalize. Optional naming improvements do not block finalization.
 
-Proceed only when every applicable guard passes or has an evidenced not-applicable result. A required guard is blocked when neither a project-local skill nor an explicitly developer-supplied definition is available.
+Load and run the project-local `check-responsibility-leaks` skill for the current job. Any confirmed responsibility leak means the job is not ready to finalize. Possible leaks must be reported separately and block finalization only when the required evidence is unavailable.
 
-## Stage 2 — Documentation, diagnostics, and verification
+Load and run the project-local `task-decomposer` skill for the same change set. A `SPLIT RECOMMENDED` result means the job is not ready to finalize. Present its smaller-task proposal, but do not undo, reorganize, stage, or commit the work.
 
-Run only after Stage 1 passes. Check affected feature documents against local `AGENTS.md`, the developer's decisions, and actual behavior:
+Load and run the project-local `update-diagnostic-spec` skill in `audit` mode for every affected feature. A `SPEC UPDATE REQUIRED` or undocumented `DIAGNOSTIC LIMITATION` means the job is not ready to finalize. Finalization must not run this skill in update mode or modify source files.
 
-- `feature_spec.md`: implemented behavior, requirements, acceptance criteria, and supported cases;
-- `implementation_plan.md`: remaining work while incomplete;
-- `development_history.md`: the full available project- or feature-specific conversation transcript, inline or linked, plus decisions, corrections, implementation history, and verification; a summary alone does not satisfy transcript retention;
-- `<feature_name>_logs_test_spec.md`: expected diagnostics, failure evidence, and AI verification procedure.
+If any required project-local skill is missing or cannot run, mark finalization `BLOCKED`.
 
-Run or reuse `update-diagnostic-spec` in read-only `audit` mode for each affected feature. `SPEC UPDATE REQUIRED` or an undocumented diagnostic limitation prevents completion. Do not add runtime code solely for logging or update specifications inside the audit.
+## Establish the job scope
 
-Verify appropriate analysis, tests, and log checks succeeded and cover the resulting behavior. Distinguish failed checks from missing evidence. Reuse valid verification rather than repeating unchanged work. Feature-runtime diagnostics are not applicable to documentation-only jobs; state why.
+Identify the files and features changed for the current job from the conversation, the working-tree diff, and the relevant commits. Separate current-job changes from unrelated or pre-existing work. If that separation cannot be established reliably, state what evidence is missing instead of attributing unrelated changes to the job.
 
-Stop on failed or blocked checks and mark later checks `NOT RUN`. If corrections affect behavior or governing requirements, return to affected Stage 1 guards first.
+## Audit declarative architecture
 
-## Stage 3 — Retention and completion
+Include the complete result from `check-declarative-rules`. Do not replace its audit with a superficial folder check.
 
-After Stages 1 and 2 pass, apply the ticket record contract's retention rules, then verify retained evidence and resulting file scope read-only.
+## Audit affected feature documentation
 
-Inspect Git status and relevant history. All current-job changes, including retained records, must be committed for Git completion. Prepare checkpoint updates before a separately authorized commit; verify its result read-only as specified by the shared checkpoint rules. Do not create, amend, squash, or push commits inside this audit.
+For every affected feature, verify its `ai_development` folder and required documents against that folder's `AGENTS.md`:
+
+- `feature_spec.md` describes the implemented behavior, requirements, acceptance criteria, and supported corner cases;
+- `implementation_plan.md` reflects remaining work while the feature is incomplete;
+- `development_history.md` preserves the feature-specific developer conversation, decisions, clarifications, corrections, implementation history, and verification results from this job;
+- `<feature_name>_logs_test_spec.md` defines expected diagnostic events, corner cases, failure evidence, and the procedure an AI agent uses to determine whether the feature works correctly.
+
+Do not accept a document merely because it exists. Compare its contents with the actual change and the developer's decisions in the current conversation.
+
+## Audit diagnostics and verification
+
+Verify that changed behavior has diagnostic evidence sufficient for the feature's log specification. Check that relevant analysis, tests, and log checks have completed successfully and correspond to the changed behavior. Distinguish a missing check from a failed check and include the available command or log evidence.
+
+## Audit Git completion
+
+Inspect repository status and relevant commit history. The job is committed only when every current-job change is included in a commit and no current-job file remains staged, modified, deleted, or untracked. Do not create, amend, squash, push, or otherwise modify commits as part of this audit.
 
 ## Report
 
-Report current stage, concise evidence-based results, and next step. Use `PASS`, `FAIL`, `BLOCKED`, `NOT APPLICABLE`, or `NOT RUN`; identify reused results. Never present deferred checks as passed. Keep internal diagrams and detailed records out of the response.
+Return a concise checklist with one of these results for each area:
 
-Mark finalized only when all applicable guards and completion checks pass, required decisions are resolved, and Git completion is verified. A stopped stage is partial finalization. Harness maintenance remains separately invoked.
+- `PASS`: requirement verified with evidence;
+- `FAIL`: requirement is unmet;
+- `BLOCKED`: required evidence is unavailable;
+- `NOT APPLICABLE`: explain why the requirement does not apply.
 
-After successful verification, hand off the [ticket-state update](../../../ai_development/project_management.md#finalization-handoff) to the project management workflow outside this audit, including the chat's state prefix and any pending tracker transition.
+Cover pattern conformance, violation-capture evidence, declarative architecture, naming and responsibility alignment, behavioral responsibility leakage, task decomposition, protected files and approvals, feature specification, implementation plan, development history, diagnostic coverage and log specification, verification evidence, and commit state. Finish with an overall result. Mark the job finalized only when every applicable item passes, the pattern keeper passes, the naming audit has no confirmed violation or unresolved rule conflict, the responsibility audit has no confirmed leak, the task decomposer does not recommend a split, and the diagnostic audit requires no update.

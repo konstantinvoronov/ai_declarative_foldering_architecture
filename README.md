@@ -27,7 +27,7 @@ Create an empty destination repository first. These commands preserve the starti
 Open the checkout in your AI coding tool and start with:
 
 ```text
-Read AGENTS.md, lib/AGENTS.md, and ai_development/ai_harness.md. Use this project's local skills. We are starting a new application: <describe the idea>. Complete applicable application setup, then inspect the inherited blueprint, propose the first minimal working feature, and show the objects, responsibilities, layers, exact paths, and affected files. Run context-checker after drafting the plan and present it for approval.
+Read lib/AGENTS.md and ai_development/ai_harness.md. Use this project's local skills. We are starting a new application: <describe the idea>. Inspect the inherited blueprint, propose the first minimal working feature, and show the objects, responsibilities, layers, exact paths, and affected files. Run context-checker after drafting the plan and present it for approval.
 ```
 
 Expected next step: approve a small implementation plan and the necessary project identity changes.
@@ -49,7 +49,7 @@ Use an empty destination repository. Push the approved baseline with `git push -
 First prompt:
 
 ```text
-Read AGENTS.md, lib/AGENTS.md, and ai_development/ai_harness.md. Use this project's local skills. Complete applicable application setup, then plan adapting Apollo for <describe the application>, including its display name, Dart package, native identifiers, and first feature. Identify the existing examples and reusable foundations to retain. Show proposed objects, roles, layers, paths, and affected files; run context-checker before presenting the plan for approval.
+Read lib/AGENTS.md and ai_development/ai_harness.md. Use this project's local skills. Plan adapting Apollo for <describe the application>, including its display name, Dart package, native identifiers, and first feature. Identify the existing examples and reusable foundations to retain. Show proposed objects, roles, layers, paths, and affected files; run context-checker before presenting the plan for approval.
 ```
 
 Expected next step: approve the identity and first-feature adaptation before implementation.
@@ -74,16 +74,6 @@ Expected next step: review conflicts and approve selected harness changes. Apply
 
 Skill names below link to the project-local definitions. Invoke them using `$skill-name` in a compatible AI tool. The agent performs the checks described by the skills and reports evidence.
 
-### Application setup and project management
-
-The [root agent guide](AGENTS.md) detects incomplete setup in derived projects that retain Apollo's default identity. [Setup](.agents/skills/setup-apollo-declarative/SKILL.md) collects the app name and IDs, offers registration and icon chats, establishes the chosen project management system, and offers upstream repository follow-ups. GitHub with GitHub Projects is recommended; dashboard support adapts to the connected plugin. Confirmed choices and completion status belong to the project's `ai_development/project_setup.json`.
-
-- [triage-apollo-declarative](.agents/skills/triage-apollo-declarative/SKILL.md) connects requested changes to tracked work and reuses development skills for context and planning.
-- [decompose-project-apollo-declarative](.agents/skills/decompose-project-apollo-declarative/SKILL.md) assesses milestones for useful issues or smaller milestones.
-- [create-icon-apollo-declarative](.agents/skills/create-icon-apollo-declarative/SKILL.md) is the initial placeholder for a separate app-icon chat.
-
-[Shared conventions](ai_development/project_management.md) define setup records, `[State] Item title` chat names, adaptive tracker states, the post-finalization handoff, and weekly maintenance suggestions.
-
 ### Orientation and architectural design
 
 - [human-developer-helper](.agents/skills/human-developer-helper/SKILL.md) — explain the current stage, useful next step, and why.
@@ -92,34 +82,26 @@ The [root agent guide](AGENTS.md) detects incomplete setup in derived projects t
 ### After the initial plan is built
 
 - [context-checker](.agents/skills/context-checker/SKILL.md) — verify the plan uses sufficient, relevant context and correctly interprets applicable instructions.
-- [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — plan coherent tasks or review working-tree, staged, or committed changes; offer related-ticket discovery during planning and evaluate useful context.
-- [discover-related-tickets](.agents/skills/discover-related-tickets/SKILL.md) — find evidenced related issues and milestones for the decomposer without changing the tracker.
+- [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — review whether work should be split into smaller independent tasks; its current audit inputs are working-tree, staged, or committed changes. Use that evidence when available and distinguish planning recommendations from a completed change-set audit.
 
 ### When implementation is complete
 
-Run [finalize-job](.agents/skills/finalize-job/SKILL.md). It first resolves solution guards, then checks documentation, diagnostics, and verification, and finally handles retention and Git completion. Failed or blocked guards stop later checks. Every analyzer, including context checking, reuses current completed or evidenced developer-accepted results rather than repeating unchanged analysis. Its solution guards are:
+Run [finalize-job](.agents/skills/finalize-job/SKILL.md). Its workflow automatically includes these project-local checks when the agent executes the skill:
 
-- [apollo-solution-complexity-reviewer](.agents/skills/apollo-solution-complexity-reviewer/SKILL.md) — review the solution approach with Astra medium, reusing a valid saved assessment.
 - [pattern-keeper](.agents/skills/pattern-keeper/SKILL.md) — review the job against applicable implementation patterns and request corrections.
 - [check-naming](.agents/skills/check-naming/SKILL.md) — verify names express established architectural roles.
 - [check-declarative-rules](.agents/skills/check-declarative-rules/SKILL.md) — verify architectural declarations, dependency permissions, and approvals.
 - [check-responsibility-leaks](.agents/skills/check-responsibility-leaks/SKILL.md) — compare actual behavior and dependencies with declared responsibilities.
 - [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — check the final change set for independent concerns requiring separation.
+- [update-diagnostic-spec](.agents/skills/update-diagnostic-spec/SKILL.md) — audit affected features' diagnostic specifications; update mode is available during separately authorized diagnostics work.
+- [violation](.agents/skills/violation/SKILL.md) — collect remaining developer-declared violations from the conversation before the final audits.
 
-After the guards pass, [update-diagnostic-spec](.agents/skills/update-diagnostic-spec/SKILL.md) audits affected features' diagnostic specifications alongside documentation and verification checks. Update mode belongs to separately authorized diagnostics work.
-
-Preparation uses [violation](.agents/skills/violation/SKILL.md) to collect qualifying developer-declared violations before the audits.
-
-Finalization also checks verification evidence, feature documentation, protected files, retained ticket-review evidence, owned temporary-artifact cleanup, and commit state. Retention and cleanup happen before final read-only verification; audit-only requests report proposed changes. Invocation is an agent workflow requirement; evidence of execution establishes which checks actually ran.
+Finalization also checks verification evidence, feature documentation, protected files, and commit state. Invocation is an agent workflow requirement; evidence of execution establishes which checks actually ran.
 
 ### Understand changes and review code
 
-- [apollo-solution-complexity-reviewer](.agents/skills/apollo-solution-complexity-reviewer/SKILL.md) — review algorithm sequences and conceptual complexity with Astra medium, save ticket-linked evidence, and explain concisely at levels 1–10 without repeating valid reviews.
-- [Ticket review records](ai_development/ticket_review_records.md) — shared storage, freshness, related-issue context, and retention conventions for these skills. Actual records stay project-owned.
 - [update-by-layer](.agents/skills/update-by-layer/SKILL.md) — explain changes by architectural layer and responsibility, naming objects, files, and generated updates.
 - [violation](.agents/skills/violation/SKILL.md) — record review findings declared by the developer, their cause, offending code, and confirmed intended correction.
-
-Use `$apollo-solution-complexity-reviewer level 3` after implementation. Astra medium reviews interaction chains and unnecessary concepts using an internal diagram, then explains the approach and confidence with a concise reason. Levels 1–10 control compression, not review effort; changing levels reuses valid evidence. The skill does not edit application code. See [reuse and retention rules](ai_development/ticket_review_records.md) for saved reviews and resumption.
 
 ### Investigate an existing violation
 

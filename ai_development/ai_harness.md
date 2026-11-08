@@ -53,8 +53,6 @@ Use code fences in real entries. Examples are representative, not instructions t
 
 ## Work and finalization
 
-Preserve the full available conversation under the project's AI development guide; summaries supplement the transcript. Use staged `finalize-job`: solution guards, then documentation/diagnostics/verification, then retention and Git completion. Every analyzer follows the [shared analysis reuse rules](ticket_review_records.md#analysis-reuse-and-stage-checkpoints), including automatic continuation and resumption after developer interaction or manual work.
-
 Do not preload every pattern catalog while solving a task. Ordinary architectural and approval constraints still apply. At finalization, run the local `pattern-keeper` to resolve relevant catalogs and supervise conformity of the current uncommitted job. It issues evidence-based correction requirements; the implementation agent makes authorized code changes and reruns verification. The keeper itself does not edit code, catalogs, or harness rules, and cannot declare its own implementation to be a new approved pattern.
 
 Run the local `violation` skill during a conversation when a violation is declared and during finalization to collect any unprocessed declarations from available dialogue. Store evidence in `ai_development/violations_unsorted.md`, not in a shared upstream history. Do not infer user declarations from ordinary corrections. Missing conversation evidence is a limitation, not permission to reconstruct quotations.
@@ -67,17 +65,7 @@ The local context-checker can independently audit context health at any task sta
 
 The checker is read-only and separate from harness maintenance. Its own inspection reads do not prove that the implementation agent had the same context earlier. When loading evidence or historical source versions are unavailable, it reports unverified coverage rather than claiming visibility into hidden model state. It recommends focused context corrections without editing code, rules, or catalogs. This is available at any stage, not a new mandatory check on every task or an automatic finalization prerequisite.
 
-## Ticket context and solution reviews
-
-The [ticket review record contract](ticket_review_records.md) defines project-owned issue context, reusable solution reviews, freshness checks, and temporary-artifact retention. Keep records under unambiguous issue identifiers so reopened and connected tickets can reuse relevant evidence. Historical reviews remain evidence to verify, not governing architecture or proof about current code.
-
-During planning, `task-decomposer` asks once whether to investigate related issues and milestones, unless already decided. When requested, `discover-related-tickets` returns evidenced connections and focused context. The decomposer evaluates relevance, consults the developer on scope changes or conflicts, and prepares or applies authorized active-ticket updates. Read-only finalization audits do not repeat the planning question or mutate the tracker.
-
-`apollo-solution-complexity-reviewer` uses Astra medium to assess algorithm sequences and unnecessary concepts from an internal diagram. It saves ticket-linked evidence and explains at compression levels 1–10. It also supplies the solution-approach guard for staged finalization. `context-checker` includes relevant retained evidence and connected issues. Storage, freshness, and cleanup follow the ticket record contract.
-
 ## Human developer guidance
-
-The repository-root `AGENTS.md` routes application setup, development-request triage, and weekly maintenance suggestions. Load the focused [project management conventions](project_management.md) when working with those capabilities; the project's setup record owns its chosen system, follow-up chats, and maintenance date.
 
 The local human-developer-helper gives concise orientation when requested or when a meaningful transition needs explanation. Its default is two or three sharp sentences: current stage, direct next step, and why that step follows. It uses the actual task, approval state, and verification evidence, expanding only on request rather than repeating onboarding or listing every skill.
 

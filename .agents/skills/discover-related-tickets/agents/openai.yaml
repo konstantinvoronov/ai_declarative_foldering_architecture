@@ -1,4 +1,0 @@
-interface:
-  display_name: "Discover Related Tickets"
-  short_description: "Find related ticket evidence for task planning"
-  default_prompt: "Use $discover-related-tickets to find relevant connected issues and milestones for the active ticket and return evidence for decomposition."

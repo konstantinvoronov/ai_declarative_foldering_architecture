@@ -7,8 +7,6 @@ description: Supervise the current uncommitted job against applicable project-wi
 
 Use this project's `ai_development/ai_harness.md` and local pattern catalogs. Do not use a sibling project's skill or patterns as an implicit authority. This is an enforcement supervisor, not a catalog-maintenance or code-writing skill.
 
-Before running, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
-
 ## Resolve the job and effective patterns
 
 Identify the current job from the conversation, staged and unstaged diffs, and untracked files. Separate unrelated existing work. If the current job cannot be isolated, report the missing evidence instead of attributing the entire dirty tree to it.

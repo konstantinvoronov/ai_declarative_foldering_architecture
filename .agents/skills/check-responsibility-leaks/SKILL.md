@@ -7,8 +7,6 @@ description: Compare naming and folder declarations with actual responsibilities
 
 Perform a read-only behavioral responsibility audit. Do not move or rewrite code unless the developer separately authorizes a correction.
 
-Before running, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
-
 ## Establish the audit scope
 
 Use the current job's changed methods, declarations, and files unless the caller names another scope. Read their direct callers, importers, construction and registration points, and collaborators far enough to determine what the code actually does and who depends on it. Separate unrelated pre-existing behavior from responsibility introduced or changed by the current job.

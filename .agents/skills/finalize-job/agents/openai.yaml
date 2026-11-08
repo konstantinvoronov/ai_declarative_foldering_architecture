@@ -1,4 +1,4 @@
 interface:
   display_name: "Finalize Job"
-  short_description: "Resume solution guards before completion checks"
-  default_prompt: "Use $finalize-job to reuse valid analyses and resume staged finalization: solution guards first, then documentation and diagnostics, then retention and Git completion."
+  short_description: "Audit project compliance before completion"
+  default_prompt: "Use $finalize-job to verify this job against project architecture, documentation, diagnostics, and commit requirements."

@@ -7,8 +7,6 @@ description: Audit changed files and declarations against this repository's proj
 
 Perform a read-only naming audit. Do not rename files, declarations, parameters, or callers unless the developer separately authorizes the correction.
 
-Before running, apply the shared [analysis reuse rules](../../../ai_development/ticket_review_records.md#analysis-reuse-and-stage-checkpoints).
-
 ## Establish the audit scope
 
 Use the current job's changed files and declarations unless the caller names another scope. Identify renamed, added, and materially repurposed declarations. Include affected callers, tests, documentation, failure sources, exports, registration functions, and serialized or native names where consistency matters.
