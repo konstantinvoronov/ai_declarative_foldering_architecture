@@ -1,159 +1,115 @@
-# Flutter AI agent enviroment with rules promoting Declarative Foldering Architecture
+# Declarative Foldering Architecture
 
-## Getting Started
+A foldering system for Flutter projects where file paths declare architectural responsibilities and boundaries for developers and AI coding agents.
 
-### What is declarative foldering structure in AI
+A folder tells you what belongs there, what it may depend on, and which other folders may consume it. The filesystem becomes an architecture contract that can be inspected before code is written and checked against the resulting implementation.
 
-This is a fresh new approach for developing flutter mobile app eighter with big proportion of Ai assiastance or clean Vibe coding.
-It contains a set of instruction guiding AI in helping Flutter developers, to use foldering structure as declaration interface of responisbilities, dependecies, and limitation for files located within the folder.
-It is also a checking script that mechanically verifyes that ai is not drifing aways and keeps executing basic principales defined in the foldeing architecture.
+## Why declarative foldering
 
-### Start a project from Git
+A conventional folder tree groups files by convention. Declarative foldering makes those conventions explicit: ownership, scope, layer, responsibility, naming, and dependency permissions become rules that developers and agents can consult together.
 
-Choose the architecture blueprint for a rules-first project or [Apollo Declarative](https://github.com/konstantinvoronov/apollo-declarative) for a working Flutter scaffold. Use a published revision containing the linked harness and skills below.
+This helps answer concrete questions:
 
-#### Scenario 1: Start with the architecture blueprint
+- Where does this object belong, and what responsibility should its name express?
+- Is this a contract, an implementation, or a Presentation concern?
+- May this folder import that folder, and does the target permit that consumer?
+- Which declarations are public, and which must remain internal?
 
-```sh
-git clone https://github.com/konstantinvoronov/ai_declarative_foldering_architecture.git my-app
-cd my-app
-git remote rename origin architecture
-git remote add origin https://github.com/YOUR_ACCOUNT/YOUR_REPOSITORY.git
-git switch -c project-start
-```
+The focus of this repository is that foldering contract and its Flutter blueprint. [Apollo Declarative](https://github.com/konstantinvoronov/apollo-declarative) provides a working Flutter scaffold and the broader AI-assisted development environment.
 
-Create an empty destination repository first. These commands preserve the starting history and keep the blueprint as a reference remote. Push the approved project baseline with `git push -u origin project-start` when ready.
+## How a path declares architecture
 
-Open the checkout in your AI coding tool and start with:
+Read an architectural path as:
 
-```text
-Read lib/AGENTS.md and ai_development/ai_harness.md. Use this project's local skills. We are starting a new application: <describe the idea>. Inspect the inherited blueprint, propose the first minimal working feature, and show the objects, responsibilities, layers, exact paths, and affected files. Run context-checker after drafting the plan and present it for approval.
-```
+**ownership → scope → layer → responsibility**
 
-Expected next step: approve a small implementation plan and the necessary project identity changes.
+| Path | Architectural meaning |
+|---|---|
+| `lib/core/domain/repositories` | Project-owned, app-wide repository contracts |
+| `lib/features/checkout/domain/repositories` | Repository contracts owned by the checkout feature |
+| `lib/features/checkout/infrastructure/repositories` | Implementations of those feature repository contracts |
+| `lib/features/checkout/presentation/controllers` | Per-screen UI logic and companion States for checkout |
+| `lib/libs/app_settings/core/domain/repositories` | Reusable library-owned repository contracts in that library's Core scope |
 
-#### Scenario 2: Start with Apollo's working scaffold
+Placement declares the intended responsibility. Reviewing behavior and actual imports establishes whether the code respects that declaration.
 
-```sh
-git clone https://github.com/konstantinvoronov/apollo-declarative.git my-app
-cd my-app
-git remote rename origin apollo
-git remote add origin https://github.com/YOUR_ACCOUNT/YOUR_REPOSITORY.git
-git switch -c project-start
-flutter pub get
-flutter run
-```
+## Scopes and ownership
 
-Use an empty destination repository. Push the approved baseline with `git push -u origin project-start` when ready. Apollo carries its own rules and skills; the architecture checkout is optional.
+| Folder | Responsibility |
+|---|---|
+| `lib/app` | Application composition, configuration, and startup |
+| `lib/core` | App-wide foundations and designated coordination boundaries |
+| `lib/features/<feature>` | Functionality owned by an individual feature |
+| `lib/libs/<library>` | Reusable ownership; architectural paths inside retain their scope and layer rules |
+| `lib/shared` | Project adaptations of reusable blueprints; adapted paths retain their architectural meaning |
 
-First prompt:
+`app`, `core`, and `features` describe different responsibilities and scopes. `libs` and `shared` describe reusable ownership and project adaptation; they preserve the architecture inside them. Unchanged reusable source can be consumed directly through permitted entrypoints.
 
-```text
-Read lib/AGENTS.md and ai_development/ai_harness.md. Use this project's local skills. Plan adapting Apollo for <describe the application>, including its display name, Dart package, native identifiers, and first feature. Identify the existing examples and reusable foundations to retain. Show proposed objects, roles, layers, paths, and affected files; run context-checker before presenting the plan for approval.
-```
+## Layers and responsibilities
 
-Expected next step: approve the identity and first-feature adaptation before implementation.
+Within a scope, folders separate contracts, representations, integrations, implementations, and UI:
 
-#### Scenario 3: Adopt the harness in an existing project
+| Folder | Responsibility |
+|---|---|
+| `domain` | Pure contracts, values, and Domain rules |
+| `domain/repositories`, `domain/use_cases`, `domain/services` | Interfaces for their respective roles |
+| `data/dtos`, `data/mappers`, `data/data_sources` | External data representations, conversions, and data-source interfaces |
+| `services` | Concrete capability integrations |
+| `infrastructure` | Concrete data sources, repository implementations, and use-case implementations |
+| `presentation/controllers` | Per-screen UI logic and companion States |
+| `presentation/models` | Presentation values and representations |
+| `presentation/screens`, `presentation/sheets`, `presentation/widgets` | UI rendering and interaction through the designated Controller |
 
-Clone this blueprint beside the existing checkout, then preview synchronization from the blueprint directory:
+Create the folders needed for the responsibility being implemented. A minimal screen does not require empty Domain or Data layers.
 
-```sh
-python3 ai_development/sync_harness.py --source . --target /absolute/path/to/existing-project
-```
+Supporting responsibilities such as Wrappers, Formatters, Validators, and Mappers stay in their owner's scope and layer. Names and filenames express established architectural roles, such as `CheckoutRepository` and `checkout_repository.dart`.
 
-First prompt:
+The complete definitions and dependency directions are in the [foldering rules](ai_development/declarative_foldering_rules.md).
 
-```text
-Review this synchronization preview and compare the blueprint with the existing project's instructions and architecture. Propose a scoped adoption plan, preserving project-specific patterns, violation history, and source. Identify conflicts and exact instruction files requiring approval. Run context-checker on the plan and ask for approval before applying it.
-```
+## Dependencies work in both directions
 
-Expected next step: review conflicts and approve selected harness changes. Apply the reviewed synchronization with the same command plus `--apply`; approve each affected AGENTS.md separately. The manifest controls shared files and sections; project-owned patterns and history stay local.
+Every import or export must satisfy both sides of the boundary:
 
-## AI skills by workflow stage
+1. The consuming folder permits the outbound dependency.
+2. The target folder permits the inbound consumer.
+3. Scope, layer, responsibility, and public-entrypoint rules permit the relationship.
 
-Skill names below link to the project-local definitions. Invoke them using `$skill-name` in a compatible AI tool. The agent performs the checks described by the skills and reports evidence.
+For example, Feature Domain may consume permitted Core Domain contracts and values. Core Domain cannot depend on Feature Domain. Domain stays independent of concrete Services, Infrastructure, Presentation, and App wiring.
 
-### Orientation and architectural design
+Exporting a declaration preserves its architectural boundaries. A public export does not make an otherwise forbidden dependency valid.
 
-- [human-developer-helper](.agents/skills/human-developer-helper/SKILL.md) — explain the current stage, useful next step, and why.
-- [resolve-declarative-responsibilities](.agents/skills/resolve-declarative-responsibilities/SKILL.md) — resolve proposed objects' roles, names, layers, placement, and both dependency directions before implementation.
+## Scoped declarations with AGENTS.md
 
-### After the initial plan is built
+The [foldering rules](ai_development/declarative_foldering_rules.md) define the defaults. Applicable ancestor `AGENTS.md` files and explicitly approved local overrides refine them for a folder's scope.
 
-- [context-checker](.agents/skills/context-checker/SKILL.md) — verify the plan uses sufficient, relevant context and correctly interprets applicable instructions.
-- [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — review whether work should be split into smaller independent tasks; its current audit inputs are working-tree, staged, or committed changes. Use that evidence when available and distinguish planning recommendations from a completed change-set audit.
+A scoped declaration can describe:
 
-### When implementation is complete
+- The folder's single responsibility (`SRP`).
+- Allowed direct children, files, naming, and required blueprints.
+- Public entrypoints and external dependencies.
+- Outbound dependencies (`May Import From`) and inbound consumers (`May Be Imported By`).
+- Explicit prohibitions.
 
-Run [finalize-job](.agents/skills/finalize-job/SKILL.md). Its workflow automatically includes these project-local checks when the agent executes the skill:
+Missing guides and omitted fields inherit. Add a local guide only for an uncovered requirement or approved exception. A more-specific dependency list replaces the broader list for its subtree and direction; an explicitly empty list permits no paths.
 
-- [pattern-keeper](.agents/skills/pattern-keeper/SKILL.md) — review the job against applicable implementation patterns and request corrections.
-- [check-naming](.agents/skills/check-naming/SKILL.md) — verify names express established architectural roles.
-- [check-declarative-rules](.agents/skills/check-declarative-rules/SKILL.md) — verify architectural declarations, dependency permissions, and approvals.
-- [check-responsibility-leaks](.agents/skills/check-responsibility-leaks/SKILL.md) — compare actual behavior and dependencies with declared responsibilities.
-- [task-decomposer](.agents/skills/task-decomposer/SKILL.md) — check the final change set for independent concerns requiring separation.
-- [update-diagnostic-spec](.agents/skills/update-diagnostic-spec/SKILL.md) — audit affected features' diagnostic specifications; update mode is available during separately authorized diagnostics work.
-- [violation](.agents/skills/violation/SKILL.md) — collect remaining developer-declared violations from the conversation before the final audits.
+Dependency lists use repository-relative folder paths:
 
-Finalization also checks verification evidence, feature documentation, protected files, and commit state. Invocation is an agent workflow requirement; evidence of execution establishes which checks actually ran.
+| Entry | Meaning |
+|---|---|
+| `/lib/core/domain` | Files directly in that folder |
+| `/lib/core/domain/*` | The folder and all descendants |
+| `!/lib/core/domain/internal/*` | Exclude that subtree |
 
-### Understand changes and review code
+These entries illustrate syntax; permissions come from the applicable declarations. Within a governing list, exclusions win and unlisted paths are denied. See the [local declaration template](lib/local_template.md) for the section schema.
 
-- [update-by-layer](.agents/skills/update-by-layer/SKILL.md) — explain changes by architectural layer and responsibility, naming objects, files, and generated updates.
-- [violation](.agents/skills/violation/SKILL.md) — record review findings declared by the developer, their cause, offending code, and confirmed intended correction.
+## Explore and apply the blueprint
 
-### Investigate an existing violation
+1. Read the [foldering rules](ai_development/declarative_foldering_rules.md) for the architecture contract.
+2. Read the [lib guide](lib/AGENTS.md) and the guides along the path being considered.
+3. Use the [feature blueprint](lib/features/feature_name/AGENTS.md) to inspect feature responsibilities and boundaries.
+4. Resolve an object's role, ownership, scope, layer, name, and permitted dependencies before choosing its exact path.
+5. Review actual behavior, imports, exports, and consumers against those declarations.
 
-- [investigate-discovered-violation](.agents/skills/investigate-discovered-violation/SKILL.md) — explicitly reopen a discovered legacy-code or technical-debt finding for investigation, trace its evidenced causes and related occurrences, and propose remediation for approval. This is separate from recording a violation and can start outside an active task. It coordinates context, responsibility resolution, architecture, naming, and pattern reviews; approved corrections proceed through finalization and an update by layer. Historical evidence and current requirements are distinguished.
+The repository includes architecture review instructions for [declarative compliance](.agents/skills/check-declarative-rules/SKILL.md), [naming](.agents/skills/check-naming/SKILL.md), and [responsibility leaks](.agents/skills/check-responsibility-leaks/SKILL.md). These are agent-executed reviews; their presence alone does not establish that code has been checked. The Python synchronization utility distributes selected instructions; it does not lint application architecture.
 
-### Update Apollo Declarative in a derived project
-
-- [update-framework-harness](.agents/skills/update-framework-harness/SKILL.md) — compare the project's recorded Apollo Declarative commit with latest upstream master, explain architectural harness changes with affected files, and offer adoption of all updates, selected improvements, or project-specific adaptations.
-
-The project's [framework version](ai_development/apollo_declarative_version.json) is one upstream commit. After the developer's final decision and completion of selected changes, it advances to the commit inspected by that session, including when all updates are declined. The next session starts from that marker. A separate [update history](ai_development/apollo_declarative_update_history.md) explains completed sessions.
-
-These tracking files remain project-owned. The skill uses the shared manifest to scope harness updates and preserves application source, local patterns, and violation history. Existing protected-file approvals remain active. Version tracking starts from the recorded baseline; the initial history entry explains how it was established.
-
-### Periodic developer-led maintenance
-
-- [maintain-ai-harness](.agents/skills/maintain-ai-harness/SKILL.md) — review harness consistency and performance using recent violations; help the developer resolve them and apply approved pattern or instruction updates.
-
-Project-wide patterns live in [ai_development/patterns.md](ai_development/patterns.md). Folder catalogs add scoped rules and specific overrides. Follow the [AI harness](ai_development/ai_harness.md) for execution, approvals, and synchronization, and the [foldering contract](ai_development/declarative_foldering_rules.md) for architecture.
-
-###
-
-As an evangelist for declarative patterns—especially in Flutter—I’m introducing a way to organize and layer your projects so the AI can easily follow along. That means you get a human-friendly, declarative roadmap right from the start.
-
-
-
-## Pain it is supposed to solve
-
-One of the main problems I'm trying to solve with this declarative architecture repository is how large language models (LLMs) are trained. Typically, LLMs build their expertise on a huge amount of Stack Overflow answers and GitHub examples, but these are often small snippets or simple sample projects. That means the AI is really good at handling smaller, less sophisticated tasks because they don't require complex architecture. But when it comes to bigger, more complicated, production-ready projects, the AI can struggle unless it’s given a more precise and structured set of instructions.
-
-So the goal here is to take that small-piece expertise that the LLM already has and shape it into something more suitable for bigger, declarative, and complex architectures. In other words, we're giving the AI a more detailed, declarative framework so it can handle larger-scale, production-level projects more effectively.
-
-
-## What can you expect in the repo? 
-
-It’s essentially a ready-made folder structure along with a set of instructions that guide both the AI (and human developers) on how to handle responsibilities between layers, manage dependencies, and keep everything interconnected in a clear, declarative way. Plus, there’s a built-in linter that will analyze changes and help both you and the AI keep things human-readable and dependable.
-
-
-In this repository, I’m diving into my passion for declarative development patterns in Flutter. While I’m enthusiastic about sharing these ideas, I also see this as an experiment and a work in progress. I’m here to learn and refine these concepts along the way, and I welcome any feedback from the community as we grow this together. This project is all about exploring and making declarative patterns accessible in a supportive and collaborative way.
-
-## And beyond just guiding the AI, 
-
-this repository is designed for “vibe coders”—developers who want a clear, step-by-step structure for planning, implementing, and reviewing their code. It’s about helping the AI guide the human developer through a well-structured process so that even larger, more complex projects feel manageable. By answering the AI’s questions and following the prompts, developers can keep their workflow organized and aligned with best practices, ultimately making the whole development experience smoother and more scalable.
-
-
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This is an evolving blueprint. Existing code and historical guides still need to be checked against the current contract, with unresolved contradictions reported for a rule decision.
