@@ -1,0 +1,420 @@
+From a5b38c24a554aecd3ff72d2810de150f94153693 Mon Sep 17 00:00:00 2001
+From: Konstantin Voronov <me@konstantinvoronov.com>
+Date: Thu, 12 Nov 2026 02:43:52 +0100
+Subject: [PATCH] Delegate backend setup to feature skills and add website
+ setup
+
+---
+ .../SKILL.md                                  | 32 ++++++++++
+ .../agents/openai.yaml                        |  4 ++
+ .../setup-apollo-declarative-backend/SKILL.md | 61 ++++++-------------
+ .../SKILL.md                                  | 14 +++++
+ .../agents/openai.yaml                        |  4 ++
+ .../SKILL.md                                  | 14 +++++
+ .../agents/openai.yaml                        |  4 ++
+ .../SKILL.md                                  | 15 +++++
+ .../agents/openai.yaml                        |  4 ++
+ .../SKILL.md                                  | 33 ++++++++++
+ .../agents/openai.yaml                        |  4 ++
+ ai_development/backend_setup.md               | 22 ++++++-
+ scripts/setup_project.py                      |  6 ++
+ tests/test_project_setup.py                   | 37 +++++++++++
+ 14 files changed, 211 insertions(+), 43 deletions(-)
+ create mode 100644 .agents/skills/setup-ai-apollo-declarative-backend/SKILL.md
+ create mode 100644 .agents/skills/setup-ai-apollo-declarative-backend/agents/openai.yaml
+ create mode 100644 .agents/skills/setup-identity-apollo-declarative-backend/SKILL.md
+ create mode 100644 .agents/skills/setup-identity-apollo-declarative-backend/agents/openai.yaml
+ create mode 100644 .agents/skills/setup-knowledge-apollo-declarative-backend/SKILL.md
+ create mode 100644 .agents/skills/setup-knowledge-apollo-declarative-backend/agents/openai.yaml
+ create mode 100644 .agents/skills/setup-memory-apollo-declarative-backend/SKILL.md
+ create mode 100644 .agents/skills/setup-memory-apollo-declarative-backend/agents/openai.yaml
+ create mode 100644 .agents/skills/setup-website-apollo-declarative-backend/SKILL.md
+ create mode 100644 .agents/skills/setup-website-apollo-declarative-backend/agents/openai.yaml
+
+diff --git a/.agents/skills/setup-ai-apollo-declarative-backend/SKILL.md b/.agents/skills/setup-ai-apollo-declarative-backend/SKILL.md
+new file mode 100644
+index 0000000..6f212cf
+--- /dev/null
++++ b/.agents/skills/setup-ai-apollo-declarative-backend/SKILL.md
+@@ -0,0 +1,32 @@
++---
++name: setup-ai-apollo-declarative-backend
++description: "Configure or resume backend AI providers, OAuth or key references, application instructions, policies, preprocessing and controlled tools."
++---
++
++# Setup Backend AI
++
++Use the active backend project and its own `scripts/setup_project.py`; read `ai_development/backend_setup.md` first. Receive the confirmed project identity, environment and shared configuration from root setup, or inspect them when invoked directly. Reuse confirmed choices, ask only for missing decisions, and preserve deferred/declined choices unless the developer changes them. Do not rerun unrelated root or feature setup.
++
++Inspect `ai_development/project_setup.json`, relevant nonsecret configuration and existing feature records. Keep the CLI's `managed_environment`, `planned_integrations`, secret references and completion fields intact. After an authorized setup apply, merge only this feature's entry under `feature_setup` using the record contract in backend_setup.md. Preview-only work must not write the record. Return actual configuration, verification and pending actions to root setup; never equate configuration with deployment or live acceptance.
++
++Read ai_development/backend_ai_spec.md before configuring MODEL_PROVIDER=disabled/ollama/openai_compatible/openai_oauth and WORKFLOW_ENGINE=disabled/langgraph. Collect endpoint, generation/embedding model names, external runtime credential references and bounded execution limits. Keep providers disabled until accepted; apply supported settings through preview/apply and verify capabilities separately with scripts/verify_ai_provider.py. --plan records intent without activation.
++
++For LLM setup or behavioral changes, read ai_development/backend_ai_setup.md. Reuse the project's existing choices before asking for new ones. Cover provider/generation/embedding models, runtime secret references and limits, the trusted system message sent alongside the user message, ordered preprocessors/enrichment, injection/output policy, and authorized tools/tool chains. Record project-specific behavioral choices and their planned/implemented/verified status in ai_development/ai_setup_choices.md; this is an operator record, not runtime configuration.
++
++Configure the developer-approved system message as a separate trusted message alongside the user message, never as text prepended into the user message. This Codex setup skill guides the operator and is not model input. Trace the current system message to TRUSTED_INSTRUCTIONS/enrich() in ai_workflow.py, policies to ai_policy.py and the AIPolicy port, preprocessing/enrichment to graph nodes/context port, and tools to AIToolExecutor plus their independently authorized owning services. Keep all actual composition in app.py. The system message is currently code-owned and there is no generic processor/tool-chain setting today; identify requested extensions as implementation work and never invent CLI/environment options. Preserve the original user input and treat user/retrieved/tool text as untrusted context. Heuristic injection checks cannot grant access or replace tool permissions.
++
++Apply supported settings through the CLI. Configuration-only setup records unsupported customizations as planned. When their implementation is requested, include the corresponding code/wiring and policy/permission/lifecycle tests before reporting them active. Verify instructions/message roles, processor order, denied/invalid tools, output-policy rejection, timeout/cancellation and real-provider generation/tool/embedding behavior as applicable. Report configuration written separately from composed behavior and observed acceptance. Read the runbook for exact current capabilities, examples and update preservation.
++
++For Responses OAuth, follow backend_ai_setup.md: external account-specific session directory, shipped connect/session commands, writable UID10001 renewal storage and independent embedding settings. Never reuse API-key mounts for OAuth or infer embedding access from the OAuth grant. Keep live acceptance and deployment separate.
++
++Embedding deferral: AI_EMBEDDING_PROVIDER=disabled supports generation/tools without embedding credentials or calls. Hosted OpenAI embeddings remain a later optional setup step. Existing same mode retains backward compatibility; disabling embeddings never disables generation or silently substitutes a local model.
++
++
++## Provider access and verification
++
++
++Use the selected project's provider adapter and collect only nonsecret choices: endpoint reachable from its runtime, generation model with required tool support, supported authentication method, external credential/session reference, time/output/tool-call limits and intended local/server runtime. Reuse existing project choices. For API-key access, the operator provisions the key outside the checkout/image and the skill configures only its path and read-only runtime mount. For a supported OAuth adapter, use the shipped connection/status/refresh/sign-out workflow and dedicated renewable session directory described in backend_ai_setup.md. Do not assume an arbitrary provider supports OAuth or that generation authorization grants embeddings. Check host permissions and single refresh ownership before container/server activation.
++
++Preserve explicit embedding deferral; delegate structured memory configuration to setup-memory-apollo-declarative-backend. Do not enable or disable memory as a side effect of provider setup. Development fixtures prove interfaces, storage, authorization and failure paths; they do not prove live credentials or semantic retrieval quality. Do not require real accounts, API keys, local model downloads or embedding calls merely to complete framework tests. Delegate document knowledge setup to setup-knowledge-apollo-declarative-backend; enabling generation or pgvector does not configure knowledge retrieval. When a derived project later enables embeddings, collect that provider/model/endpoint and separate external credential reference, index/version compatibility and retrieval acceptance requirements through setup.
++
++Before declaring LLM access ready, distinguish offline validation from an explicitly requested live generation/tool probe and actual container/server reachability. Report deferred checks. Include the project's system message, policy/preprocessing, authorized tools and optional memory configuration from the linked runbooks; configuring access does not automatically implement custom behavioral extensions. Never bundle a developer's test session or credentials into a derived project.
+diff --git a/.agents/skills/setup-ai-apollo-declarative-backend/agents/openai.yaml b/.agents/skills/setup-ai-apollo-declarative-backend/agents/openai.yaml
+new file mode 100644
+index 0000000..40b79b0
+--- /dev/null
++++ b/.agents/skills/setup-ai-apollo-declarative-backend/agents/openai.yaml
+@@ -0,0 +1,4 @@
++interface:
++  display_name: "Setup Backend AI"
++  short_description: "Configure or resume backend ai setup"
++  default_prompt: "Use $setup-ai-apollo-declarative-backend to configure or resume this backend ai feature."
+diff --git a/.agents/skills/setup-apollo-declarative-backend/SKILL.md b/.agents/skills/setup-apollo-declarative-backend/SKILL.md
+index 551e230..8039a90 100644
+--- a/.agents/skills/setup-apollo-declarative-backend/SKILL.md
++++ b/.agents/skills/setup-apollo-declarative-backend/SKILL.md
+@@ -1,28 +1,37 @@
+ ---
+ name: setup-apollo-declarative-backend
+-description: Configure a new or existing Apollo Declarative Backend project with its reusable setup CLI. Use for initial setup or updates, including LLM settings and application instructions, policy, preprocessors, tool wiring, scoped memory, document knowledge and app websites; deployment is separate.
++description: Configure or resume an Apollo backend foundation and delegate accepted integrations to feature setup skills, including identity, AI, memory, document knowledge and the app website. Use for initial backend setup or configuration updates; deployment remains separate.
+ ---
+ 
+ # Set up Apollo Declarative Backend
+ 
+-Use the project's scripts/setup_project.py with Python 3.11+. Read README.md and ai_development/backend_setup.md for supported settings and examples. Keep configuration mechanical work in that CLI rather than editing generated values independently.
++Use the active project's `scripts/setup_project.py` with Python 3.11+. Read README.md and ai_development/backend_setup.md. Inspect existing configuration and the setup record before asking for decisions; keep mechanical configuration changes in the CLI.
+ 
+-Establish the target project, project name, environment, API port and SQL identifiers from existing configuration and developer context. For a new derived project use an empty destination. Run a preview first, inspect the configuration changes, then apply within the developer's authorized scope. Setup does not authorize deployment or modifications to another project's code.
++## Backend foundation
+ 
+-Reruns preserve existing local values, comments, unknown environment entries, project record fields and secrets. Conflicting explicit updates fail. Resolve with the developer's intended value or use --keep-local when retaining current values is intended. Do not erase unrelated edits to make a rerun pass.
++Establish the target project, project name, environment, API port and SQL identifiers from existing configuration and developer context. For a new derived project use an empty resolved destination. Preview first, inspect changes, then apply within the authorized scope. Configure the foundation before running feature setup in the derived target. Continue from that target's own CLI and skills, without requiring the framework checkout.
+ 
+-The CLI generates a database secret locally and keeps it out of previews and the setup record. Never pass credentials in --set, print .env, or paste resolved Compose configuration into chat.
++Preserve local values, comments, unknown environment entries, project-record fields and secrets. Resolve explicit conflicts using the intended value or --keep-local; never erase unrelated edits. The CLI generates the database secret locally. Never pass credentials in --set, print .env, or paste resolved Compose configuration into chat. Setup does not deploy or authorize modifications to another project's code.
+ 
+-Identity supports disabled or firebase. Read ai_development/backend_identity_spec.md before enabling Firebase: collect the project ID and a runtime credential reference, keep credential files outside the checkout, and reject emulator settings in production. Never generate a service-account key merely for setup. AI execution supports disabled mode, or ollama/openai_compatible/openai_oauth with langgraph. Read ai_development/backend_ai_spec.md before configuring it. Collect endpoint, generation/embedding model names, optional external runtime key-file reference and execution limits, preview changes with the setup CLI, then apply within the requested scope. Never collect or print key contents. Keep providers disabled until requested, retain settings on updates, and verify configured provider capabilities separately with scripts/verify_ai_provider.py. Memory supports disabled or langmem; read ai_development/backend_memory_spec.md before enabling it. --plan records choices without activating them.
++## Feature setup delegation
+ 
++Discover feature setup skills in the active project's `.agents/skills` by their SKILL.md names and descriptions. Check feature documentation, feature_setup records and actual managed configuration for applicability. Exclude this root skill and local-start, server configuration, deploy/restart, review and other unrelated workflows. Do not infer that a default disabled component is an explicit decline.
+ 
+-## Configure application AI behavior
++| Feature | Owning skill | Existing activation setting |
++| --- | --- | --- |
++| Firebase identity | [setup-identity-apollo-declarative-backend](../setup-identity-apollo-declarative-backend/SKILL.md) | IDENTITY_PROVIDER |
++| AI execution and behavior | [setup-ai-apollo-declarative-backend](../setup-ai-apollo-declarative-backend/SKILL.md) | MODEL_PROVIDER / WORKFLOW_ENGINE |
++| Persistent memory | [setup-memory-apollo-declarative-backend](../setup-memory-apollo-declarative-backend/SKILL.md) | MEMORY_ENGINE |
++| Document knowledge | [setup-knowledge-apollo-declarative-backend](../setup-knowledge-apollo-declarative-backend/SKILL.md) | KNOWLEDGE_ENGINE |
++| App website | [setup-website-apollo-declarative-backend](../setup-website-apollo-declarative-backend/SKILL.md) | WEBSITE_ENABLED |
+ 
+-For LLM setup or behavioral changes, read ai_development/backend_ai_setup.md. Reuse the project's existing choices before asking for new ones. Cover provider/generation/embedding models, runtime secret references and limits, the trusted system message sent alongside the user message, ordered preprocessors/enrichment, injection/output policy, and authorized tools/tool chains. Record project-specific behavioral choices and their planned/implemented/verified status in ai_development/ai_setup_choices.md; this is an operator record, not runtime configuration.
++Load and run the owning skill for each accepted or already enabled feature, completing only unfinished setup. Offer features with unresolved choices during a full setup; a feature-specific update invokes only the requested feature and necessary shared dependencies. Preserve deferred/declined choices unless the developer requests a change. If actual configuration conflicts with a recorded choice, resolve the intended state before changing it; never silently disable an enabled feature. If a selected feature has no setup skill, report the missing handoff rather than inventing configuration here.
+ 
+-Configure the developer-approved system message as a separate trusted message alongside the user message, never as text prepended into the user message. This Codex setup skill guides the operator and is not model input. Trace the current system message to TRUSTED_INSTRUCTIONS/enrich() in ai_workflow.py, policies to ai_policy.py and the AIPolicy port, preprocessing/enrichment to graph nodes/context port, and tools to AIToolExecutor plus their independently authorized owning services. Keep all actual composition in app.py. The system message is currently code-owned and there is no generic processor/tool-chain setting today; identify requested extensions as implementation work and never invent CLI/environment options. Preserve the original user input and treat user/retrieved/tool text as untrusted context. Heuristic injection checks cannot grant access or replace tool permissions.
++Pass project identity, environment, target path and available shared configuration to the feature skill. Reconcile shared Firebase/provider/domain choices before applying conflicts. Keep provider defaults, feature parameters, permissions and verification procedures in the feature skills. Let each skill own its feature_setup entry and return actual configuration, observed verification and pending actions. Preserve the established backend setup schema; use the additive record contract in backend_setup.md. CLI --plan choices remain separate from activation or acceptance.
+ 
+-Apply supported settings through the CLI. Configuration-only setup records unsupported customizations as planned. When their implementation is requested, include the corresponding code/wiring and policy/permission/lifecycle tests before reporting them active. Verify instructions/message roles, processor order, denied/invalid tools, output-policy rejection, timeout/cancellation and real-provider generation/tool/embedding behavior as applicable. Report configuration written separately from composed behavior and observed acceptance. Read the runbook for exact current capabilities, examples and update preservation.
++Root setup_complete means foundation configuration was written, not that every optional feature is enabled, deployed or verified. Resume unfinished accepted/enabled feature setup even when root setup_complete is already true. Summarize each feature's choice, configuration, deployment, verification and pending actions without turning deferred work into a failure of foundation setup.
++
++## Runtime and server handoff
+ 
+ After apply, validate the target stack with its own compose.yaml and .env. A setup_complete record means configuration was written; report container/runtime verification separately. Derived projects include the setup CLI and skill and must not require the framework checkout. Deploy/restart tooling belongs to issue #3.
+ 
+@@ -30,34 +39,4 @@ For manual server deployment, configure the target during setup using --deploy-s
+ 
+ For public server/domain/DNS/HTTPS setup, use the project-local configure-server-apollo-declarative-backend skill. It guides user-run discovery and host-specific commands; keep project configuration in this CLI and deployment in the existing deploy skill.
+ 
+-For Responses OAuth, follow backend_ai_setup.md: external account-specific session directory, shipped connect/session commands, writable UID10001 renewal storage and independent embedding settings. Never reuse API-key mounts for OAuth or infer embedding access from the OAuth grant. Keep live acceptance and deployment separate.
+-
+-Embedding deferral: AI_EMBEDDING_PROVIDER=disabled supports generation/tools without embedding credentials or calls. Hosted OpenAI embeddings remain a later optional setup step. Existing same mode retains backward compatibility; disabling embeddings never disables generation or silently substitutes a local model.
+-
+-## Configure persistent memory
+-
+-Use MEMORY_ENGINE=langmem for scoped structured facts/preferences/notes backed by the existing PostgreSQL volume. Configure MEMORY_MAX_ITEMS, MEMORY_RETRIEVAL_LIMIT, MEMORY_MAX_SOURCES and MEMORY_EXTRACTION_TIMEOUT through setup_project.py, preview then apply. Preserve AI_EMBEDDING_PROVIDER=disabled when embeddings are deferred; no local model or default embedding credentials are needed. Explicit remember/correct/forget work without a generation provider. Optional /memory/extract uses the separately approved generation provider in the foreground; never enable automatic conversation capture. Grant memory:read/write/forget/extract only through trusted identity administration, not client requests or remembered text. Explain lexical/recent retrieval, revision conflicts, bounded receipt capacity, three explicit attempts, deletion fencing and backup retention from the specification. Include memory tables and receipts in backup/restore checks; old backups may retain forgotten facts. Run tests/memory_smoke.py separately from configuration. Installed wiring/readiness is not proof of live extraction or server deployment.
+-
+-## Per-project LLM access checklist
+-
+-Use the selected project's provider adapter and collect only nonsecret choices: endpoint reachable from its runtime, generation model with required tool support, supported authentication method, external credential/session reference, time/output/tool-call limits and intended local/server runtime. Reuse existing project choices. For API-key access, the operator provisions the key outside the checkout/image and the skill configures only its path and read-only runtime mount. For a supported OAuth adapter, use the shipped connection/status/refresh/sign-out workflow and dedicated renewable session directory described in backend_ai_setup.md. Do not assume an arbitrary provider supports OAuth or that generation authorization grants embeddings. Check host permissions and single refresh ownership before container/server activation.
+-
+-Keep structured memory and AI_EMBEDDING_PROVIDER=disabled for the current framework scope. Development fixtures prove interfaces, storage, authorization and failure paths; they do not prove live credentials or semantic retrieval quality. Do not require real accounts, API keys, local model downloads or embedding calls merely to complete framework tests. Document knowledge ingestion/retrieval is separate implementation work; pgvector or a dummy embedding fixture alone does not make it implemented. When a derived project later enables embeddings, collect that provider/model/endpoint and separate external credential reference, index/version compatibility and retrieval acceptance requirements through setup.
+-
+-Before declaring LLM access ready, distinguish offline validation from an explicitly requested live generation/tool probe and actual container/server reachability. Report deferred checks. Include the project's system message, policy/preprocessing, authorized tools and optional memory configuration from the linked runbooks; configuring access does not automatically implement custom behavioral extensions. Never bundle a developer's test session or credentials into a derived project.
+-
+-## Configure document knowledge
+-
+-Read ai_development/backend_knowledge_spec.md when configuring reference books/documents. Configure KNOWLEDGE_ENGINE=disabled/postgres and KNOWLEDGE_MAX_DOCUMENTS through the existing preview/apply CLI. Collect the target application and collection, private versus shared project access, trusted document folder and supported PDF/TXT/Markdown sources, actual identity permissions, endpoint and external protected ID-token reference. The separate import_knowledge.py CLI previews extraction locally, then imports through the authenticated API with --apply; setup must not import/deploy automatically. Explain OCR/encrypted-PDF failure, bounded text/page/passages, partial-batch retention, stable filename identity, rerun/update behavior, revision/tombstone deletion and lifetime-ID capacity from the specification. Do not promise PDF layout/OCR completeness or publish real documents as fixtures.
+-
+-Use dummy documents/identities and deterministic embedding fixtures for framework verification without accounts or keys. Runtime knowledge retrieval currently uses keywords; keep real embeddings deferred. For later semantic activation, record explicit provider/model/endpoint, external credential reference, authorization to send document text, profile/version/dimensions, reimport/migration strategy and measured retrieval quality; these are planned customization until provider composition is actually implemented/verified. Never claim the ordinary generation or embedding flag reindexes knowledge. Verify strict read-only search_knowledge permissions and citations separately from installed readiness. Backend setup owns this guidance; frontend setup/repository stays separate.
+-
+-## Configure the app website
+-
+-Read ai_development/backend_website_spec.md. Reuse website/site.json choices; collect app name/logo/screenshots/text, operator/support contact, exact domain/root/www hosts, locales and translated UI/privacy/terms/support/deletion content. Establish actual data practices/providers/retention and a working deletion request process; sample text remains draft. Collect real store URLs or coming-soon state, Apple App ID prefix/bundle IDs, Android package/release or Play App Signing fingerprints and supported HTTP link paths. Native entitlements/intent filters/push remain a frontend handoff, never edits to the frontend setup skill.
+-
+-For GA4 collect/reuse enabled state, web measurement ID, optional property/data-stream IDs, domain/locales, events, campaign/ad allowlist, iOS campaign/Play referrer mappings, consent/privacy choice, owned cross-domain hosts and debug acceptance. Confirm Enhanced Measurement is disabled before tag activation. No browser-tag API key is needed; server Measurement Protocol is unimplemented. Invitation/share pages never load analytics. Explain configured versus actual GA4 report verification.
+-
+-Collect the owning invitation/share preview service or fixed read-only preview_url/public fields; absent wiring reports unavailable. Never invent business success or log capability tokens. Configure actual deletion_url or monitored support-email process rather than a fake submit action. Keep public profile/assets separate from all credentials.
+-
+-Use setup_project.py --website-config and optional --website-assets with WEBSITE_ENABLED=true: preview, inspect, apply. Preserve local conflicts with intended resolution/--keep-local; use versioned image names for asset updates. Setup does not publish/contact providers/deploy. Production needs reviewed nondraft content. verify_website.py probes public/profile/association contracts; native-device, live invitation/deletion and GA4 checks remain separate. Deployment selects the same-image website service and removes only it when disabled. Preserve per-project/API/ACME routing; no live domain/server changes are implied by setup.
++Keep manual server target configuration in this root setup lifecycle. Feature setup must not build, connect, publish or deploy implicitly. Return the saved target, foundation status and per-feature outcomes; do not mark runtime ready from offline validation.
+diff --git a/.agents/skills/setup-identity-apollo-declarative-backend/SKILL.md b/.agents/skills/setup-identity-apollo-declarative-backend/SKILL.md
+new file mode 100644
+index 0000000..fe4d6c0
+--- /dev/null
++++ b/.agents/skills/setup-identity-apollo-declarative-backend/SKILL.md
+@@ -0,0 +1,14 @@
++---
++name: setup-identity-apollo-declarative-backend
++description: "Configure or resume backend Firebase identity and external runtime credential references, directly or through root backend setup."
++---
++
++# Setup Backend Identity
++
++Use the active backend project and its own `scripts/setup_project.py`; read `ai_development/backend_setup.md` first. Receive the confirmed project identity, environment and shared configuration from root setup, or inspect them when invoked directly. Reuse confirmed choices, ask only for missing decisions, and preserve deferred/declined choices unless the developer changes them. Do not rerun unrelated root or feature setup.
++
++Inspect `ai_development/project_setup.json`, relevant nonsecret configuration and existing feature records. Keep the CLI's `managed_environment`, `planned_integrations`, secret references and completion fields intact. After an authorized setup apply, merge only this feature's entry under `feature_setup` using the record contract in backend_setup.md. Preview-only work must not write the record. Return actual configuration, verification and pending actions to root setup; never equate configuration with deployment or live acceptance.
++
++Read ai_development/backend_identity_spec.md. Configure IDENTITY_PROVIDER=disabled/firebase, FIREBASE_PROJECT_ID and a runtime credential reference through the existing preview/apply CLI. Keep credential files outside the checkout and image; never generate a service-account key merely for setup. Reuse the selected Firebase project, reconcile shared project choices with AI/application setup and reject emulator settings in production. Collect only nonsecret settings; never print .env or credential contents.
++
++This backend verifies Firebase ID tokens and maps trusted application permissions. Frontend login, Cloud Functions email delivery and native app registration belong to their own setup workflows; do not copy frontend authentication defaults into this backend. Verify configured identity separately from live token verification, permission rejection and application/user isolation, using the specification's existing probes and tests when authorized. Keep unavailable credentials/access and unverified deployment pending.
+diff --git a/.agents/skills/setup-identity-apollo-declarative-backend/agents/openai.yaml b/.agents/skills/setup-identity-apollo-declarative-backend/agents/openai.yaml
+new file mode 100644
+index 0000000..6667f07
+--- /dev/null
++++ b/.agents/skills/setup-identity-apollo-declarative-backend/agents/openai.yaml
+@@ -0,0 +1,4 @@
++interface:
++  display_name: "Setup Backend Identity"
++  short_description: "Configure or resume backend identity setup"
++  default_prompt: "Use $setup-identity-apollo-declarative-backend to configure or resume this backend identity feature."
+diff --git a/.agents/skills/setup-knowledge-apollo-declarative-backend/SKILL.md b/.agents/skills/setup-knowledge-apollo-declarative-backend/SKILL.md
+new file mode 100644
+index 0000000..edf7109
+--- /dev/null
++++ b/.agents/skills/setup-knowledge-apollo-declarative-backend/SKILL.md
+@@ -0,0 +1,14 @@
++---
++name: setup-knowledge-apollo-declarative-backend
++description: "Configure or resume backend document knowledge, scoped access and explicit import handoff, directly or through root backend setup."
++---
++
++# Setup Backend Knowledge
++
++Use the active backend project and its own `scripts/setup_project.py`; read `ai_development/backend_setup.md` first. Receive the confirmed project identity, environment and shared configuration from root setup, or inspect them when invoked directly. Reuse confirmed choices, ask only for missing decisions, and preserve deferred/declined choices unless the developer changes them. Do not rerun unrelated root or feature setup.
++
++Inspect `ai_development/project_setup.json`, relevant nonsecret configuration and existing feature records. Keep the CLI's `managed_environment`, `planned_integrations`, secret references and completion fields intact. After an authorized setup apply, merge only this feature's entry under `feature_setup` using the record contract in backend_setup.md. Preview-only work must not write the record. Return actual configuration, verification and pending actions to root setup; never equate configuration with deployment or live acceptance.
++
++Read ai_development/backend_knowledge_spec.md when configuring reference books/documents. Configure KNOWLEDGE_ENGINE=disabled/postgres and KNOWLEDGE_MAX_DOCUMENTS through the existing preview/apply CLI. Collect the target application and collection, private versus shared project access, trusted document folder and supported PDF/TXT/Markdown sources, actual identity permissions, endpoint and external protected ID-token reference. The separate import_knowledge.py CLI previews extraction locally, then imports through the authenticated API with --apply; setup must not import/deploy automatically. Explain OCR/encrypted-PDF failure, bounded text/page/passages, partial-batch retention, stable filename identity, rerun/update behavior, revision/tombstone deletion and lifetime-ID capacity from the specification. Do not promise PDF layout/OCR completeness or publish real documents as fixtures.
++
++Use dummy documents/identities and deterministic embedding fixtures for framework verification without accounts or keys. Runtime knowledge retrieval currently uses keywords; keep real embeddings deferred. For later semantic activation, record explicit provider/model/endpoint, external credential reference, authorization to send document text, profile/version/dimensions, reimport/migration strategy and measured retrieval quality; these are planned customization until provider composition is actually implemented/verified. Never claim the ordinary generation or embedding flag reindexes knowledge. Verify strict read-only search_knowledge permissions and citations separately from installed readiness. This feature setup skill owns this guidance; frontend setup/repository stays separate.
+diff --git a/.agents/skills/setup-knowledge-apollo-declarative-backend/agents/openai.yaml b/.agents/skills/setup-knowledge-apollo-declarative-backend/agents/openai.yaml
+new file mode 100644
+index 0000000..1524473
+--- /dev/null
++++ b/.agents/skills/setup-knowledge-apollo-declarative-backend/agents/openai.yaml
+@@ -0,0 +1,4 @@
++interface:
++  display_name: "Setup Backend Knowledge"
++  short_description: "Configure or resume backend knowledge setup"
++  default_prompt: "Use $setup-knowledge-apollo-declarative-backend to configure or resume this backend knowledge feature."
+diff --git a/.agents/skills/setup-memory-apollo-declarative-backend/SKILL.md b/.agents/skills/setup-memory-apollo-declarative-backend/SKILL.md
+new file mode 100644
+index 0000000..4f513df
+--- /dev/null
++++ b/.agents/skills/setup-memory-apollo-declarative-backend/SKILL.md
+@@ -0,0 +1,15 @@
++---
++name: setup-memory-apollo-declarative-backend
++description: "Configure or resume scoped persistent backend memory, permissions and explicit extraction; invoked directly or by root backend setup."
++---
++
++# Setup Backend Memory
++
++Use the active backend project and its own `scripts/setup_project.py`; read `ai_development/backend_setup.md` first. Receive the confirmed project identity, environment and shared configuration from root setup, or inspect them when invoked directly. Reuse confirmed choices, ask only for missing decisions, and preserve deferred/declined choices unless the developer changes them. Do not rerun unrelated root or feature setup.
++
++Inspect `ai_development/project_setup.json`, relevant nonsecret configuration and existing feature records. Keep the CLI's `managed_environment`, `planned_integrations`, secret references and completion fields intact. After an authorized setup apply, merge only this feature's entry under `feature_setup` using the record contract in backend_setup.md. Preview-only work must not write the record. Return actual configuration, verification and pending actions to root setup; never equate configuration with deployment or live acceptance.
++
++Read ai_development/backend_memory_spec.md before configuration.
++
++
++Use MEMORY_ENGINE=langmem for scoped structured facts/preferences/notes backed by the existing PostgreSQL volume. Configure MEMORY_MAX_ITEMS, MEMORY_RETRIEVAL_LIMIT, MEMORY_MAX_SOURCES and MEMORY_EXTRACTION_TIMEOUT through setup_project.py, preview then apply. Preserve AI_EMBEDDING_PROVIDER=disabled when embeddings are deferred; no local model or default embedding credentials are needed. Explicit remember/correct/forget work without a generation provider. Optional /memory/extract uses the separately approved generation provider in the foreground; never enable automatic conversation capture. Grant memory:read/write/forget/extract only through trusted identity administration, not client requests or remembered text. Explain lexical/recent retrieval, revision conflicts, bounded receipt capacity, three explicit attempts, deletion fencing and backup retention from the specification. Include memory tables and receipts in backup/restore checks; old backups may retain forgotten facts. Run tests/memory_smoke.py separately from configuration. Installed wiring/readiness is not proof of live extraction or server deployment.
+diff --git a/.agents/skills/setup-memory-apollo-declarative-backend/agents/openai.yaml b/.agents/skills/setup-memory-apollo-declarative-backend/agents/openai.yaml
+new file mode 100644
+index 0000000..83c4be2
+--- /dev/null
++++ b/.agents/skills/setup-memory-apollo-declarative-backend/agents/openai.yaml
+@@ -0,0 +1,4 @@
++interface:
++  display_name: "Setup Backend Memory"
++  short_description: "Configure or resume backend memory setup"
++  default_prompt: "Use $setup-memory-apollo-declarative-backend to configure or resume this backend memory feature."
+diff --git a/.agents/skills/setup-website-apollo-declarative-backend/SKILL.md b/.agents/skills/setup-website-apollo-declarative-backend/SKILL.md
+new file mode 100644
+index 0000000..0432fb3
+--- /dev/null
++++ b/.agents/skills/setup-website-apollo-declarative-backend/SKILL.md
+@@ -0,0 +1,33 @@
++---
++name: setup-website-apollo-declarative-backend
++description: "Configure or resume a derived backend app website: branding, localized policies, store/app links, invitations, deletion, optional GA4 and release handoffs."
++---
++
++# Setup Backend Website
++
++Use the active backend project and its own `scripts/setup_project.py`; read `ai_development/backend_setup.md` first. Receive the confirmed project identity, environment and shared configuration from root setup, or inspect them when invoked directly. Reuse confirmed choices, ask only for missing decisions, and preserve deferred/declined choices unless the developer changes them. Do not rerun unrelated root or feature setup.
++
++Inspect `ai_development/project_setup.json`, relevant nonsecret configuration and existing feature records. Keep the CLI's `managed_environment`, `planned_integrations`, secret references and completion fields intact. After an authorized setup apply, merge only this feature's entry under `feature_setup` using the record contract in backend_setup.md. Preview-only work must not write the record. Return actual configuration, verification and pending actions to root setup; never equate configuration with deployment or live acceptance.
++
++Read ai_development/backend_website_spec.md. Reuse website/site.json choices; collect app name/logo/screenshots/text, operator/support contact, exact domain/root/www hosts, locales and translated UI/privacy/terms/support/deletion content. Establish actual data practices/providers/retention and a working deletion request process; sample text remains draft. Collect real store URLs or coming-soon state, Apple App ID prefix/bundle IDs, Android package/release or Play App Signing fingerprints and supported HTTP link paths. Native entitlements/intent filters/push remain a frontend handoff, never edits to the frontend setup skill.
++
++For GA4 collect/reuse enabled state, web measurement ID, optional property/data-stream IDs, domain/locales, events, campaign/ad allowlist, iOS campaign/Play referrer mappings, consent/privacy choice, owned cross-domain hosts and debug acceptance. Confirm Enhanced Measurement is disabled before tag activation. No browser-tag API key is needed; server Measurement Protocol is unimplemented. Invitation/share pages never load analytics. Explain configured versus actual GA4 report verification.
++
++Collect the owning invitation/share preview service or fixed read-only preview_url/public fields; absent wiring reports unavailable. Never invent business success or log capability tokens. Configure actual deletion_url or monitored support-email process rather than a fake submit action. Keep public profile/assets separate from all credentials.
++
++Use setup_project.py --website-config and optional --website-assets with WEBSITE_ENABLED=true: preview, inspect, apply. Preserve local conflicts with intended resolution/--keep-local; use versioned image names for asset updates. Setup does not publish/contact providers/deploy. Production needs reviewed nondraft content. verify_website.py probes public/profile/association contracts; native-device, live invitation/deletion and GA4 checks remain separate. Deployment selects the same-image website service and removes only it when disabled. Preserve per-project/API/ACME routing; no live domain/server changes are implied by setup.
++
++## Resumable website setup
++
++Use `feature_setup.website` for the choice and status summary; `website/site.json` remains the public runtime profile. Record only nonsecret readiness and remaining actions, including profile path, configured hosts/locales, draft versus reviewed content, store/association readiness, frontend handoff, invitation/deletion service readiness and optional analytics verification. Do not duplicate the public profile or copy invitation tokens into the record. Offer analytics independently of the website; deferring GA4 must not block a draft website. Retain that subchoice under feature_setup.website.analytics with choice (enabled/deferred/declined), configuration, verification and pending_actions using the same status contract. Do not copy private analytics identifiers or report collection verified from configuration alone.
++
++For a new derived project, complete the root foundation first and use its own CLI thereafter. Example from the active project (omit assets when not needed):
++
++```sh
++python3 scripts/setup_project.py --set WEBSITE_ENABLED=true --website-config /absolute/public-site.json --website-assets /absolute/public-images
++python3 scripts/setup_project.py --set WEBSITE_ENABLED=true --website-config /absolute/public-site.json --website-assets /absolute/public-images --apply
++```
++
++Before changing an enabled production profile, establish whether the developer requests draft configuration, release preparation or publication. Keep drafts off the public production runtime. The CLI rejects an enabled draft with ENVIRONMENT=production; never change the existing production environment to evade that guard. Identify the project's separate draft-preview target/workflow before applying, or retain that handoff as pending if none exists. Hand accepted server/domain work to configure-server-apollo-declarative-backend and publication/restart to deploy-and-restart-apollo-declarative-backend; setup alone performs neither. Use the owning project's existing release workflow for the separately managed draft preview; do not assume an API deployment updates it.
++
++Report separately: template available, profile written, website deployed, public HTTPS verified, and per-app release acceptance. Real approved policies/deletion handling, store listings, native identifiers/device association, invitation service and optional GA4 collection are derived-project acceptance inputs. Never mark them passed from fixtures or empty association files. Return concrete unresolved inputs and frontend/native handoff requirements.
+diff --git a/.agents/skills/setup-website-apollo-declarative-backend/agents/openai.yaml b/.agents/skills/setup-website-apollo-declarative-backend/agents/openai.yaml
+new file mode 100644
+index 0000000..a9e71a7
+--- /dev/null
++++ b/.agents/skills/setup-website-apollo-declarative-backend/agents/openai.yaml
+@@ -0,0 +1,4 @@
++interface:
++  display_name: "Setup Backend Website"
++  short_description: "Configure or resume backend website setup"
++  default_prompt: "Use $setup-website-apollo-declarative-backend to configure or resume this backend website feature."
+diff --git a/ai_development/backend_setup.md b/ai_development/backend_setup.md
+index c23f995..c20a094 100644
+--- a/ai_development/backend_setup.md
++++ b/ai_development/backend_setup.md
+@@ -7,7 +7,7 @@ python3 scripts/setup_project.py --target /absolute/resolved/empty/project --pro
+ python3 scripts/setup_project.py --target /absolute/resolved/empty/project --project-name my-backend --set API_PORT=8100 --apply
+ ```
+ 
+-The target receives the runtime, migrations, hashed dependencies, Docker configuration, setup CLI and skill. It has no Git history or remote copied. Run future setup from the target's own scripts/setup_project.py. Use resolved paths; symlink ancestors and symlinked configuration files are rejected.
++The target receives the runtime, migrations, hashed dependencies, Docker configuration, setup CLI, root setup skill and feature setup skills. It has no Git history or remote copied. Run future setup from the target's own scripts/setup_project.py. Use resolved paths; symlink ancestors and symlinked configuration files are rejected.
+ 
+ Generated .env holds a locally generated database password and has mode 0600. ai_development/project_setup.json records nonsecret managed values and a secret reference only. Do not commit .env. Configuration-complete does not mean runtime-verified.
+ 
+@@ -37,10 +37,28 @@ Firebase setup keys: FIREBASE_PROJECT_ID, FIREBASE_EMULATOR_ENABLED (true/false)
+ 
+ Transport setup keys: TRANSPORT_MAX_CONNECTIONS, TRANSPORT_MAX_RUN_SECONDS, TRANSPORT_REVALIDATE_SECONDS and TRANSPORT_ALLOWED_ORIGINS. Validate exact HTTP(S) origins with no credentials/path/query/fragment; production requires HTTPS. Empty origins deny browser WebSocket origins and grant no cross-origin access. Defaults preserve native/backend operation. See [transport contracts](backend_transport_spec.md) for limits and client behavior.
+ 
+-AI configuration and later updates use the same setup CLI and skill. See [AI execution setup](backend_ai_spec.md) for provider/model/embedding endpoint choices, external secret references, paired enablement, limits and explicit provider verification. compose.ai.yaml is selected by operations when the external key reference is set.
++AI configuration and later updates use the same setup CLI, root setup skill and feature setup skills. See [AI execution setup](backend_ai_spec.md) for provider/model/embedding endpoint choices, external secret references, paired enablement, limits and explicit provider verification. compose.ai.yaml is selected by operations when the external key reference is set.
+ 
+ Application AI behavior setup (trusted system instructions, injection/output policy, preprocessing/enrichment and tool chains) follows [backend_ai_setup.md](backend_ai_setup.md). The CLI manages supported environment settings; current behavior customization requires explicit code/composition work. Derived bundles include README.md, this runbook and the AI setup guide; existing project documents/code are preserved on reruns.
+ 
+ Knowledge: configure KNOWLEDGE_ENGINE=disabled/postgres and KNOWLEDGE_MAX_DOCUMENTS=1..1024 (default64 lifetime IDs per private/shared scope). See backend_knowledge_spec.md for separate PDF/text folder preview/import, protected ID-token references, permissions, document replacement/deletion, bounds and deferred semantic activation. Setup stays offline and does not read/upload books or contact providers.
+ 
+ Website: WEBSITE_ENABLED=false/true uses website/site.json. Configure public branding/locales/policies/support/deletion, store/native associations, optional GA4 and preview_url with --website-config and referenced images with --website-assets. Preview/apply/rerun remains offline and preserves local choices. See backend_website_spec.md for draft/production guards and real release checks. Native frontend setup stays separate.
++
++## Feature setup delegation and progress
++
++`setup-apollo-declarative-backend` owns the foundation and optional deployment target. It discovers accepted/enabled feature setup skills in the active project's `.agents/skills`; identity, AI, memory, knowledge and website own their own parameters and verification. Feature-specific requests can invoke their skill directly. New derived bundles include all `setup-*-apollo-declarative-backend` skill directories, so delegation needs no framework checkout. Existing skill directories are preserved on reruns; use the normal selective update workflow to adopt new skill revisions.
++
++Read existing managed settings, `planned_integrations`, feature records and public website profile before asking for answers. Default disabled settings are not explicit declines. Preserve confirmed deferred/declined choices, resolve conflicts with enabled runtime settings explicitly, and resume unfinished accepted features even when `setup_complete` is already true.
++
++Feature skills merge their own entry under the additive `feature_setup` object in `ai_development/project_setup.json` after an authorized apply. The setup CLI preserves this object as an unknown record field; it does not synthesize feature choices or change verification states. Preserve all sibling features and CLI-owned fields. Use feature keys `identity`, `ai`, `memory`, `knowledge`, `website`, or a discovered feature's declared key. Record:
++
++- `choice`: `enabled`, `deferred` or `declined`; absent/null means unresolved. An enabled choice records intent, not successful activation.
++- `configuration`: `not_started`, `planned` or `configured` based on actual results.
++- `deployment`: `not_requested`, `pending` or `verified`, separately from configuration.
++- `verification`: an object of named checks with `not_run`, `passed`, `failed` or `deferred` and nonsecret evidence references.
++- `pending_actions`: concrete missing inputs/access, manual handoffs or unverified steps.
++
++Keep confirmed feature-specific nonsecret choices/readiness under the same entry as needed; keep actual runtime values in the CLI-owned environment/public profile and existing AI behavior record. Never store raw credentials, sessions, identity tokens, invitation capabilities or private documents here. Reread and merge the latest record before an atomic write; never replace it with a frontend schema. Preview-only requests perform no record writes. Explicit decisions to defer/decline can be retained when setup progress recording is requested, without enabling an integration or overwriting its prior runtime settings.
++
++Website setup is owned by [setup-website-apollo-declarative-backend](../.agents/skills/setup-website-apollo-declarative-backend/SKILL.md). It collects branding/locales, approved policies and deletion handling, store and association identities, dynamic preview wiring, optional analytics and native release handoffs. Template availability, configured draft, deployed site, public HTTPS checks and per-app release acceptance are distinct outcomes. Do not require production store accounts or enable analytics merely to configure a draft.
+diff --git a/scripts/setup_project.py b/scripts/setup_project.py
+index 3ea3cdb..d5748a1 100644
+--- a/scripts/setup_project.py
++++ b/scripts/setup_project.py
+@@ -20,6 +20,12 @@ BUNDLE = ['README.md', 'deploy.sh', 'Dockerfile', '.dockerignore', '.gitignore',
+           '.agents/skills/deploy-and-restart-apollo-declarative-backend',
+           'ai_development/backend_setup.md', 'ai_development/backend_architecture.md',
+           'ai_development/backend_identity_spec.md', 'ai_development/backend_transport_spec.md', 'ai_development/backend_ai_spec.md', 'ai_development/backend_ai_setup.md', 'ai_development/ai_execution_logs_test_spec.md', 'ai_development/backend_memory_spec.md', 'ai_development/memory_logs_test_spec.md', 'ai_development/backend_knowledge_spec.md', 'ai_development/knowledge_logs_test_spec.md', 'ai_development/backend_website_spec.md', 'ai_development/website_logs_test_spec.md', 'ai_development/subscriptions_spec.md']
++# Ship feature-owned setup handoffs with every standalone derived project.
++BUNDLE.extend(
++    str(path.relative_to(SOURCE))
++    for path in sorted((SOURCE / '.agents/skills').glob('setup-*-apollo-declarative-backend'))
++    if path.is_dir()
++)
+ DEFAULTS = {'ENVIRONMENT': 'local', 'API_PORT': '8000', 'POSTGRES_USER': 'apollo',
+             'DATABASE_TIMEOUT': '5', 'IDENTITY_PROVIDER': 'disabled',
+             'MODEL_PROVIDER': 'disabled', 'WORKFLOW_ENGINE': 'disabled', 'MEMORY_ENGINE': 'disabled', 'FIREBASE_PROJECT_ID': '',
+diff --git a/tests/test_project_setup.py b/tests/test_project_setup.py
+index 8ed270d..e61e454 100644
+--- a/tests/test_project_setup.py
++++ b/tests/test_project_setup.py
+@@ -45,6 +45,43 @@ class ProjectSetupTests(unittest.TestCase):
+             self.assertEqual(rerun.returncode,0,rerun.stderr)
+             self.assertEqual(env,(target/'.env').read_text())
+         self.assertNotEqual((self.root/'alpha-backend/.env').read_text(),(self.root/'beta-backend/.env').read_text())
++    def test_feature_setup_bundle_is_standalone_and_preserves_progress(self):
++        target = self.root / 'feature-setup'
++        applied = self.run_setup(target, '--project-name', 'feature-setup', '--apply')
++        self.assertEqual(applied.returncode, 0, applied.stderr)
++        features = ['identity', 'ai', 'memory', 'knowledge', 'website']
++        for feature in features:
++            skill = target / f'.agents/skills/setup-{feature}-apollo-declarative-backend'
++            self.assertTrue((skill / 'SKILL.md').is_file(), feature)
++            self.assertTrue((skill / 'agents/openai.yaml').is_file(), feature)
++        # Every relative Markdown handoff in root setup resolves within the bundle.
++        import re
++        root_skill = target / '.agents/skills/setup-apollo-declarative-backend/SKILL.md'
++        for link in re.findall(r'\[[^\]]+\]\(([^)]+)\)', root_skill.read_text()):
++            self.assertTrue((root_skill.parent / link).is_file(), link)
++        record = target / 'ai_development/project_setup.json'
++        data = json.loads(record.read_text())
++        progress = {'website': {'choice': 'deferred', 'configuration': 'not_started',
++                               'deployment': 'not_requested', 'verification': {},
++                               'pending_actions': ['Collect approved policy content']},
++                    'ai': {'choice': 'enabled', 'configuration': 'planned'}}
++        data['feature_setup'] = progress
++        record.write_text(json.dumps(data))
++        website_skill = target / '.agents/skills/setup-website-apollo-declarative-backend/SKILL.md'
++        customized = website_skill.read_text() + '\nProject-specific website handoff.\n'
++        website_skill.write_text(customized)
++        # Simulate a missing optional skill in an established derived project.
++        import shutil
++        shutil.rmtree(target / '.agents/skills/setup-memory-apollo-declarative-backend')
++        rerun = self.run_setup(target, '--apply')
++        self.assertEqual(rerun.returncode, 0, rerun.stderr)
++        # Rerun only from the derived CLI, with all feature skills present.
++        standalone = self.run_setup(target, '--apply', script=target / 'scripts/setup_project.py')
++        self.assertEqual(standalone.returncode, 0, standalone.stderr)
++        self.assertEqual(json.loads(record.read_text())['feature_setup'], progress)
++        self.assertEqual(website_skill.read_text(), customized)
++        self.assertTrue((target / '.agents/skills/setup-memory-apollo-declarative-backend/SKILL.md').is_file())
++
+     def test_preserve_local_edits_and_explicit_conflict(self):
+         target=self.root/'edited'
+         self.assertEqual(self.run_setup(target,'--project-name','edited','--apply').returncode,0)
+-- 
+2.23.0
+
